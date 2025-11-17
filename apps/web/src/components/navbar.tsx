@@ -68,14 +68,14 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
 
-            <span className="font-bold text-xl sm:inline-block">
+            <span className="hidden font-bold text-xl sm:inline-block">
               my-celo-app
             </span>
           </Link>
         </div>
         
         {/* Desktop navigation */}
-        <nav className=" md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -89,7 +89,7 @@ export function Navbar() {
               }`}
             >
               {link.name}
-         
+              {link.external && <ExternalLink className="h-4 w-4" />}
             </Link>
           ))}
           
