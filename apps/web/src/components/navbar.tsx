@@ -68,7 +68,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
 
-            <span className="hidden font-bold text-xl sm:inline-block">
+            <span className="font-bold text-xl sm:inline-block">
               my-celo-app
             </span>
           </Link>
