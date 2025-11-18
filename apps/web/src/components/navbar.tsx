@@ -45,17 +45,25 @@ export default function Navbar() {
       {/* RIGHT SECTION */}
       <div className="flex items-center gap-2 md:gap-4">
 
-        {/* Connected badge */}
+        {/* CONNECTED INDICATOR */}
         {isConnected && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-1 md:gap-2 bg-green-600 text-white
-            px-2 md:px-3 py-1 rounded-full shadow text-xs md:text-sm"
-          >
-            <span className="font-medium">Connected</span>
-            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-          </motion.div>
+          <>
+            {/* Mobile: ONLY blinking dot */}
+            <div className="block md:hidden">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            </div>
+
+            {/* Desktop: Full badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="hidden md:flex items-center gap-2 bg-green-600 text-white
+              px-3 py-1 rounded-full shadow text-sm"
+            >
+              <span className="font-medium">Connected</span>
+              <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+            </motion.div>
+          </>
         )}
 
         {/* Address bubble */}
@@ -105,6 +113,7 @@ export default function Navbar() {
     </nav>
   );
 }
+
 
 
 
