@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { ConnectButton } from "@/components/connect-button";
+// import { ConnectButton } from "@/components/connect-button";
 import { useAccount, useDisconnect } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Navbar() {
   const [theme, setTheme] = useState("light");
@@ -37,7 +38,7 @@ export default function Navbar() {
     >
       {/* Logo */}
       <div className="flex items-center gap-2">
-        <h1 className="font-bold text-lg md:text-xl text-black dark:text-white">
+        <h1 className="font-bold text-sm md:text-xl text-black dark:text-white">
           Think Fast
         </h1>
       </div>
@@ -45,57 +46,9 @@ export default function Navbar() {
       {/* RIGHT SECTION */}
       <div className="flex items-center gap-2 md:gap-4">
 
-        {/* CONNECTED INDICATOR */}
-        {isConnected && (
-          <>
-            {/* Mobile: ONLY blinking dot */}
-            <div className="block md:hidden">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            </div>
+     
 
-            {/* Desktop: Full badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="hidden md:flex items-center gap-2 bg-green-600 text-white
-              px-3 py-1 rounded-full shadow text-sm"
-            >
-              <span className="font-medium">Connected</span>
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-            </motion.div>
-          </>
-        )}
-
-        {/* Address bubble */}
-        {isConnected && (
-          <motion.span
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="text-xs md:text-sm text-black dark:text-white bg-purple-100 
-            dark:bg-purple-900 px-2 md:px-3 py-1 rounded-full shadow"
-          >
-            {address?.slice(0, 4)}...{address?.slice(-4)}
-          </motion.span>
-        )}
-
-        {/* Disconnect button */}
-        {isConnected && (
-          <motion.button
-            onClick={() => disconnect()}
-            whileTap={{ scale: 0.9 }}
-            className="px-2 md:px-3 py-1 text-xs md:text-sm rounded-full 
-            bg-red-600 text-white shadow"
-          >
-            Disconnect
-          </motion.button>
-        )}
-
-        {/* Connect button (when not connected) */}
-        {!isConnected && (
-          <div className="scale-90 md:scale-100">
-            <ConnectButton />
-          </div>
-        )}
+  <ConnectButton />
 
         {/* Theme Toggle */}
         <button

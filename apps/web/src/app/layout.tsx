@@ -5,6 +5,7 @@ import './globals.css';
 // import { Navbar } from '@/components/navbar';
 import { WalletProvider } from "@/components/wallet-provider"
 import Navbar from '@/components/navbar';
+import BottomTabs from '@/components/BottomTabs';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,6 +29,9 @@ export default function RootLayout({
             <main className="flex-1">
               {children}
             </main>
+
+
+            <BottomTabs />
           </WalletProvider>
         </div>
       </body>
