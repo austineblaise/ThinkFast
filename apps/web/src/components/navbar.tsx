@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaSun, FaMoon, FaRocket } from "react-icons/fa";
+import { FaSun, FaMoon } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { ConnectButton } from "@/components/connect-button";
 import { useAccount, useDisconnect } from "wagmi";
@@ -32,27 +32,28 @@ export default function Navbar() {
     <nav
       className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg
       bg-white/60 dark:bg-black/40 shadow-md border-b border-white/30
-      dark:border-gray-700 flex items-center justify-between px-6 py-3"
+      dark:border-gray-700 flex items-center justify-between
+      px-4 md:px-6 py-3"
     >
       {/* Logo */}
       <div className="flex items-center gap-2">
-        <FaRocket className="text-purple-600 dark:text-purple-400 text-xl" />
-        <h1 className="font-bold text-lg text-black dark:text-white">
-          Brain Blast
+        <h1 className="font-bold text-lg md:text-xl text-black dark:text-white">
+          Think Fast
         </h1>
       </div>
 
-      <div className="flex items-center gap-4">
+      {/* RIGHT SECTION */}
+      <div className="flex items-center gap-2 md:gap-4">
 
         {/* Connected badge */}
         {isConnected && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-2 bg-green-600 text-white
-            px-3 py-1 rounded-full shadow"
+            className="flex items-center gap-1 md:gap-2 bg-green-600 text-white
+            px-2 md:px-3 py-1 rounded-full shadow text-xs md:text-sm"
           >
-            <span className="text-sm font-medium">Connected</span>
+            <span className="font-medium">Connected</span>
             <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
           </motion.div>
         )}
@@ -62,10 +63,10 @@ export default function Navbar() {
           <motion.span
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-sm text-black dark:text-white bg-purple-100 
-            dark:bg-purple-900 px-3 py-1 rounded-full shadow"
+            className="text-xs md:text-sm text-black dark:text-white bg-purple-100 
+            dark:bg-purple-900 px-2 md:px-3 py-1 rounded-full shadow"
           >
-            {address?.slice(0, 6)}...{address?.slice(-4)}
+            {address?.slice(0, 4)}...{address?.slice(-4)}
           </motion.span>
         )}
 
@@ -74,14 +75,19 @@ export default function Navbar() {
           <motion.button
             onClick={() => disconnect()}
             whileTap={{ scale: 0.9 }}
-            className="px-3 py-1 text-sm rounded-full bg-red-600 text-white shadow"
+            className="px-2 md:px-3 py-1 text-xs md:text-sm rounded-full 
+            bg-red-600 text-white shadow"
           >
             Disconnect
           </motion.button>
         )}
 
-        {/* Connect button (shown only when NOT connected) */}
-        {!isConnected && <ConnectButton />}
+        {/* Connect button (when not connected) */}
+        {!isConnected && (
+          <div className="scale-90 md:scale-100">
+            <ConnectButton />
+          </div>
+        )}
 
         {/* Theme Toggle */}
         <button
@@ -90,15 +96,16 @@ export default function Navbar() {
           transition-all duration-300 shadow flex items-center justify-center"
         >
           {theme === "light" ? (
-            <FaMoon className="text-black text-xl" />
+            <FaMoon className="text-black text-lg md:text-xl" />
           ) : (
-            <FaSun className="text-yellow-300 text-xl" />
+            <FaSun className="text-yellow-300 text-lg md:text-xl" />
           )}
         </button>
       </div>
     </nav>
   );
 }
+
 
 
 
