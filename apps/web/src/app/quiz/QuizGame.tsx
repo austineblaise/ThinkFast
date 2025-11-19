@@ -62,39 +62,74 @@ export default function QuizGame() {
 
   const isCorrectChain = chain?.id === CELO_CHAIN_ID;
 
-  const handleConnect = useCallback(async () => {
-    try {
-      // Prefer an injected wallet (e.g., MetaMask)
-      let connector =
-        connectors.find((c) => c.id === "injected") ||
-        connectors.find((c) => c.name?.toLowerCase().includes("metamask")) ||
-        connectors[0];
+  // const handleConnect = useCallback(async () => {
+  //   try {
+  //     // Prefer an injected wallet (e.g., MetaMask)
+  //     let connector =
+  //       connectors.find((c) => c.id === "injected") ||
+  //       connectors.find((c) => c.name?.toLowerCase().includes("metamask")) ||
+  //       connectors[0];
 
-      if (!connector) {
-        toast.error("⚠️ No wallet connector found.");
-        return;
-      }
+  //     if (!connector) {
+  //       toast.error("⚠️ No wallet connector found.");
+  //       return;
+  //     }
 
-      await connect({
-        connector,
-        chainId: CELO_CHAIN_ID,
-      });
+  //     await connect({
+  //       connector,
+  //       chainId: CELO_CHAIN_ID,
+  //     });
 
-      toast.success("🔗 Wallet connected!");
-    } catch (err: any) {
-      console.error("Wallet connect error:", err);
-      toast.error("❌ Failed to connect wallet. Please try again.");
-    }
-  }, [connect, connectors]);
+  //     toast.success("🔗 Wallet connected!");
+  //   } catch (err: any) {
+  //     console.error("Wallet connect error:", err);
+  //     toast.error("❌ Failed to connect wallet. Please try again.");
+  //   }
+  // }, [connect, connectors]);
 
-  const handleSwitchChain = useCallback(() => {
-    try {
-      switchChain({ chainId: CELO_CHAIN_ID });
-    } catch (error) {
-      console.error("Chain switch failed:", error);
-      alert(`Failed to switch to Celo Network. Please try again.`);
-    }
-  }, [switchChain]);
+  // const handleSwitchChain = useCallback(() => {
+  //   try {
+  //     switchChain({ chainId: CELO_CHAIN_ID });
+  //   } catch (error) {
+  //     console.error("Chain switch failed:", error);
+  //     alert(`Failed to switch to Celo Network. Please try again.`);
+  //   }
+  // }, [switchChain]);
+
+
+const handleConnect = useCallback(async () => {
+  try {
+    let connector =
+      connectors.find((c) => c.id === "injected") ||
+      connectors.find((c) => c.name?.toLowerCase().includes("metamask")) ||
+      connectors[0];
+
+    await connect({
+      connector,
+      // chainId: CELO_CHAIN_ID, // celo or celoAlfajores
+       chainId: 42220, // celo or celoAlfajores
+    });
+
+    toast.success("🔗 Connected to Celo!");
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to connect wallet.");
+  }
+}, [connect, connectors]);
+
+  
+  const handleSwitchChain = useCallback(async () => {
+  try {
+    await switchChain({
+      chainId: 42220, // can be celo.id or celoAlfajores.id // 42220 or // 44787
+    });
+    toast.success("🌐 Switched to Celo!");
+  } catch (err) {
+    console.error("Chain switch failed:", err);
+    toast.error("Unable to switch network. Please switch manually.");
+  }
+}, [switchChain]);
+
 
   const maxReward = 0.00001;
 

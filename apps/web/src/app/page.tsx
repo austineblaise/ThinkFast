@@ -19,6 +19,7 @@ import {
   FaBrain,
   FaTrophy,
 } from "react-icons/fa";
+import { UserBalance } from "@/components/user-balance";
 
 // Animation config
 const containerVariants = {
@@ -165,6 +166,10 @@ export default function Home() {
 
         {/* Title */}
 
+
+
+        <UserBalance />
+
        
 
         {/* Instructions */}
@@ -298,7 +303,7 @@ export default function Home() {
 
 // import Link from "next/link";
 // import { Button } from "@/components/ui/button";
-// import { UserBalance } from "@/components/user-balance";
+//  import { UserBalance } from "@/components/user-balance";
 // import { Zap } from "lucide-react";
 
 // export default function Home() {
