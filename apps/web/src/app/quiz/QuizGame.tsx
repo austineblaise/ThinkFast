@@ -681,7 +681,8 @@ export default function QuizGame() {
                       )}
                     </>
                   )}
-                  {!isConnected && !isMiniPay ? (
+
+                  {/* {!isConnected && !isMiniPay ? (
                     // Show Connect button ONLY for non-MiniPay users
                     <button
                       onClick={handleConnect}
@@ -716,7 +717,56 @@ export default function QuizGame() {
                     >
                       🎁 {isPending ? "Claiming..." : "Claim Your Reward"}
                     </button>
-                  )}
+                  )} */}
+
+
+
+
+
+
+
+
+{!isConnected && !isMiniPay ? (
+  // 1️⃣ Connect wallet (non-MiniPay only)
+  <button
+    onClick={handleConnect}
+    className="bg-yellow-800 hover:bg-yellow-600 text-white px-2 py-2 rounded-lg font-semibold shadow"
+  >
+    Connect Wallet to claim
+  </button>
+
+) : claimCooldown > 0 ? (
+  // 2️⃣ Cooldown (everyone)
+  <button
+    disabled
+    className="bg-gradient-to-r from-gray-500 to-gray-700 text-white px-4 py-2 rounded-xl font-semibold shadow-inner cursor-not-allowed opacity-80 flex items-center gap-2 animate-pulse"
+  >
+    <span className="text-sm sm:text-base">
+      Claim again in {formatTime(claimCooldown)}
+    </span>
+  </button>
+
+) : (
+  // 3️⃣ Claim button (everyone)
+  <button
+    onClick={claimReward}
+    disabled={isPending}
+    className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white md:px-5 px-2 py-2 rounded-lg font-semibold tracking-wide hover:opacity-90 shadow-lg transition-all duration-200"
+  >
+    🎁 {isPending ? "Claiming..." : "Claim Your Reward"}
+  </button>
+)}
+
+
+
+
+
+
+
+
+
+
+
                 </div>
               )}
 
