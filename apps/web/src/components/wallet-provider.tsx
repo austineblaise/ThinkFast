@@ -22,7 +22,18 @@ const connectors = connectorsForWallets(
   }
 );
 
-const wagmiConfig = createConfig({
+// export const wagmiConfig = createConfig({
+//   chains: [celoAlfajores], // ONLY CELO ALFAJORES
+//   connectors,
+//   transports: {
+//     [celoAlfajores.id]: http(),
+//   },
+//   ssr: true,
+// });
+
+
+
+const wagmiConfig:any = createConfig({
   chains: [celo, celoAlfajores],
   connectors,
   transports: {
@@ -31,6 +42,7 @@ const wagmiConfig = createConfig({
   },
   ssr: true,
 });
+
 
 const queryClient = new QueryClient();
 
