@@ -60,7 +60,7 @@ export default function QuizGame() {
   const client = publicClient;
 
 
-  const isCorrectChain = chain?.id === CELO_CHAIN_ID;
+  const isCorrectChain = chain?.id === 42220;
 
   // const handleConnect = useCallback(async () => {
   //   try {
