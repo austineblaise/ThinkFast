@@ -13,9 +13,9 @@ export function ConnectButton() {
     }
   }, []);
 
-  // if (isMinipay) {
-  //   return null;
-  // }
+  if (isMinipay) {
+    return null;
+  }
 
   return <RainbowKitConnectButton />;
 }

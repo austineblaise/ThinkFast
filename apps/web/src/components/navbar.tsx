@@ -3,18 +3,14 @@
 import { useEffect, useState } from "react";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { motion } from "framer-motion";
-// import { ConnectButton } from "@/components/connect-button";
-import { useAccount, useDisconnect } from "wagmi";
-// import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ConnectButton } from "@/components/connect-button"
-import { Button } from "@/components/ui/button"
+import { useAccount } from "wagmi";
+import { ConnectButton } from "@/components/connect-button";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   const [theme, setTheme] = useState("light");
   const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
 
-  // Load saved theme
   useEffect(() => {
     const stored = localStorage.getItem("theme");
     if (stored) {
@@ -23,13 +19,17 @@ export default function Navbar() {
     }
   }, []);
 
-  // Toggle theme
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
+
+  // Shorten address
+  const shortAddress = address
+    ? `${address.slice(0, 5)}...${address.slice(-3)}`
+    : "";
 
   return (
     <nav
@@ -46,13 +46,33 @@ export default function Navbar() {
       </div>
 
       {/* RIGHT SECTION */}
-      <div className="flex items-center gap-2 md:gap-4">
+      <div className="flex items-center gap-3 md:gap-5">
+        {/* Connected Status */}
+        {isConnected && (
+          <motion.div
+            className="flex items-center gap-2 px-3 py-1 rounded-xl bg-blue-100 dark:bg-blue-900/40
+            border border-blue-300 dark:border-blue-700 shadow-sm"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            {/* Blinking Blue Dot */}
+            <span className="w-3 h-3 rounded-full bg-blue-500 animate-ping"></span>
+            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
 
-     
+            {/* Address */}
+            <span className="font-medium text-blue-800 dark:text-blue-300 text-sm">
+              {shortAddress}
+            </span>
+          </motion.div>
+        )}
 
-  <Button asChild className="w-full">
-                     <ConnectButton />
-                  </Button>
+        {/* Connect Button */}
+        {!isConnected && (
+          <Button asChild className="px-4 py-2">
+            <ConnectButton />
+          </Button>
+        )}
 
         {/* Theme Toggle */}
         <button
@@ -72,19 +92,12 @@ export default function Navbar() {
 }
 
 
-
-
-
-
-
-
 // "use client"
 
 // import Link from "next/link"
 // import Image from "next/image"
 // import { usePathname } from "next/navigation"
 // import { Menu, ExternalLink } from "lucide-react"
-
 
 // import { Button } from "@/components/ui/button"
 // import {
@@ -101,7 +114,7 @@ export default function Navbar() {
 
 // export function Navbar() {
 //   const pathname = usePathname()
-  
+
 //   return (
 //     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
 //       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
@@ -153,7 +166,7 @@ export default function Navbar() {
 //             </span>
 //           </Link>
 //         </div>
-        
+
 //         {/* Desktop navigation */}
 //         <nav className="hidden md:flex items-center gap-8">
 //           {navLinks.map((link) => (
@@ -172,7 +185,7 @@ export default function Navbar() {
 //               {link.external && <ExternalLink className="h-4 w-4" />}
 //             </Link>
 //           ))}
-          
+
 //           <div className="flex items-center gap-3">
 //             <ConnectButton />
 //           </div>

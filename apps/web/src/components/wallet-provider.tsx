@@ -44,6 +44,10 @@ const wagmiConfig:any = createConfig({
 });
 
 
+
+
+
+
 const queryClient = new QueryClient();
 
 function WalletProviderInner({ children }: { children: React.ReactNode }) {

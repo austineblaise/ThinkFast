@@ -18,7 +18,7 @@ import {
   useSendTransaction,
   usePublicClient,
 } from "wagmi";
-import { celo } from "viem/chains";
+// import { celo } from "viem/chains";
 import ScoreRewardArtifact from "@/lib/abi/ScoreReward.json";
 import { allQuestions } from "@/app/quiz/data/questions";
 import { toast } from "react-toastify";
@@ -29,6 +29,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getReferralTag, submitReferral } from "@divvi/referral-sdk";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { celo, celoAlfajores } from "wagmi/chains";
 
 const ABI = ScoreRewardArtifact.abi;
 const contractAddress = process.env
@@ -59,8 +60,17 @@ export default function QuizGame() {
   const [isPending, setPending] = useState(false);
   const client = publicClient;
 
+  const isMiniPay = typeof window !== "undefined" && (window as any).minipay;
 
-  const isCorrectChain = chain?.id === 42220;
+  useEffect(() => {
+    if (isMiniPay && !isConnected) {
+      connect({
+        connector: connectors[0],
+      });
+    }
+  }, [isMiniPay, isConnected]);
+
+  const isCorrectChain = chain?.id === CELO_CHAIN_ID;
 
   // const handleConnect = useCallback(async () => {
   //   try {
@@ -96,40 +106,36 @@ export default function QuizGame() {
   //   }
   // }, [switchChain]);
 
+  const handleConnect = useCallback(async () => {
+    try {
+      let connector =
+        connectors.find((c) => c.id === "injected") ||
+        connectors.find((c) => c.name?.toLowerCase().includes("metamask")) ||
+        connectors[0];
 
-const handleConnect = useCallback(async () => {
-  try {
-    let connector =
-      connectors.find((c) => c.id === "injected") ||
-      connectors.find((c) => c.name?.toLowerCase().includes("metamask")) ||
-      connectors[0];
+      await connect({
+        connector,
+        chainId: CELO_CHAIN_ID, // celo or celoAlfajores
+      });
 
-    await connect({
-      connector,
-      // chainId: CELO_CHAIN_ID, // celo or celoAlfajores
-       chainId: 42220, // celo or celoAlfajores
-    });
+      toast.success("🔗 Connected to Celo!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to connect wallet.");
+    }
+  }, [connect, connectors]);
 
-    toast.success("🔗 Connected to Celo!");
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to connect wallet.");
-  }
-}, [connect, connectors]);
-
-  
   const handleSwitchChain = useCallback(async () => {
-  try {
-    await switchChain({
-      chainId: 42220, // can be celo.id or celoAlfajores.id // 42220 or // 44787
-    });
-    toast.success("🌐 Switched to Celo!");
-  } catch (err) {
-    console.error("Chain switch failed:", err);
-    toast.error("Unable to switch network. Please switch manually.");
-  }
-}, [switchChain]);
-
+    try {
+      await switchChain({
+        chainId: CELO_CHAIN_ID, // can be celo.id or celoAlfajores.id // 42220 or // 44787
+      });
+      toast.success("🌐 Switched to Celo!");
+    } catch (err) {
+      console.error("Chain switch failed:", err);
+      toast.error("Unable to switch network. Please switch manually.");
+    }
+  }, [switchChain]);
 
   const maxReward = 0.00001;
 
@@ -492,8 +498,6 @@ const handleConnect = useCallback(async () => {
     <div className="min-h-screen bg-[#17111F] flex items-center justify-center p-6">
       <div className="w-full max-w-2xl p-6 bg-[#E6E6FA] shadow-2xl rounded-2xl space-y-6 relative">
         <div className="flex justify-between items-center">
-      
-
           {/* RainbowKit Connect Button */}
           {/* <div>
             <ConnectButton />
@@ -546,7 +550,7 @@ const handleConnect = useCallback(async () => {
               </h2>
 
               <div className="grid gap-3">
-                {currentQuestion.options.map((option:any) => (
+                {currentQuestion.options.map((option: any) => (
                   <button
                     key={option}
                     onClick={() => handleAnswer(option)}
@@ -677,15 +681,16 @@ const handleConnect = useCallback(async () => {
                       )}
                     </>
                   )}
-
-                  {!isConnected ? (
+                  {!isConnected && !isMiniPay ? (
+                    // Show Connect button ONLY for non-MiniPay users
                     <button
                       onClick={handleConnect}
                       className="bg-yellow-800 hover:bg-yellow-600 text-white px-2 py-2 rounded-lg font-semibold shadow"
                     >
                       Connect Wallet to claim
                     </button>
-                  ) : !isCorrectChain ? (
+                  ) : isConnected && !isMiniPay && !isCorrectChain ? (
+                    // Show switch chain ONLY for non-MiniPay users
                     <button
                       onClick={handleSwitchChain}
                       className="bg-red-500 hover:bg-red-600 text-white px-2 py-2 rounded-lg font-semibold shadow"
@@ -693,6 +698,7 @@ const handleConnect = useCallback(async () => {
                       🌐 Switch to Celo to claim
                     </button>
                   ) : claimCooldown > 0 ? (
+                    // Cooldown applies to everyone
                     <button
                       disabled
                       className="bg-gradient-to-r from-gray-500 to-gray-700 text-white px-4 py-2 rounded-xl font-semibold shadow-inner cursor-not-allowed opacity-80 flex items-center gap-2 animate-pulse"
@@ -702,6 +708,7 @@ const handleConnect = useCallback(async () => {
                       </span>
                     </button>
                   ) : (
+                    // Claim button for everyone
                     <button
                       onClick={claimReward}
                       disabled={isPending}
@@ -729,9 +736,6 @@ const handleConnect = useCallback(async () => {
     </div>
   );
 }
-
-
-
 
 // "use client";
 
@@ -765,17 +769,12 @@ const handleConnect = useCallback(async () => {
 // import { useRouter, useSearchParams } from "next/navigation";
 // import { getReferralTag, submitReferral } from "@divvi/referral-sdk";
 
-
-
-
-
 // const ABI = ScoreRewardArtifact.abi;
 // const contractAddress = process.env
 //   .NEXT_PUBLIC_SCORE_REWARD_ADDRESS as `0x${string}`;
 // const CELO_CHAIN_ID = celo.id;
 
 // export default function QuizGame() {
- 
 
 //   const { connect, connectors, status } = useConnect();
 
@@ -800,7 +799,6 @@ const handleConnect = useCallback(async () => {
 //   const publicClient = usePublicClient();
 //   const [isPending, setPending] = useState(false);
 
-
 // useEffect(() => {
 //   if (typeof window !== "undefined") {
 //     if (window.ethereum && window.ethereum.isMiniPay) {
@@ -809,8 +807,6 @@ const handleConnect = useCallback(async () => {
 //     }
 //   }
 // }, []);
-
-
 
 //   const isCorrectChain = chain?.id === CELO_CHAIN_ID;
 
@@ -838,7 +834,6 @@ const handleConnect = useCallback(async () => {
 //       toast.error("❌ Failed to connect wallet. Please try again.");
 //     }
 //   }, [connect, connectors]);
-
 
 //   const handleSwitchChain = useCallback(() => {
 //     try {
@@ -1114,8 +1109,6 @@ const handleConnect = useCallback(async () => {
 //   //   setQuestions(getRandomQuestions());
 //   // }, []);
 
-
-
 // const searchParams = useSearchParams();
 // const category = searchParams.get("category") || "all";
 
@@ -1141,11 +1134,6 @@ const handleConnect = useCallback(async () => {
 
 //   setQuestions(finalQuestions);
 // }, [category]);
-
-
-
-
-
 
 //   const handleOpenModal = async () => {
 //     try {
@@ -1266,7 +1254,7 @@ const handleConnect = useCallback(async () => {
 
 //               router.push("/leaderboard");
 //             }}
-//             className={`flex items-center gap-2 px-3 py-1 rounded-lg shadow transition 
+//             className={`flex items-center gap-2 px-3 py-1 rounded-lg shadow transition
 //     ${
 //       !isConnected || score === null
 //         ? "bg-gray-400 cursor-not-allowed text-gray-200"
