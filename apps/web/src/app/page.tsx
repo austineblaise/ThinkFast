@@ -113,17 +113,24 @@ export default function Home() {
         animate="visible"
       >
         {/* Prize Pool */}
-     <motion.div
+<motion.div
   variants={itemVariants}
-  className="bg-white/30 dark:bg-black/30 backdrop-blur-lg border border-white/40 
-  dark:border-gray-700 px-2 py-3 rounded-2xl shadow-md mb-6 mt-6 md:mt-0"
+  className="
+    bg-gradient-to-r from-purple-500/20 to-yellow-500/20
+    dark:from-purple-400/10 dark:to-yellow-400/10
+    backdrop-blur-xl
+    border border-white/30 dark:border-gray-700/40
+    px-4 py-3 rounded-2xl shadow-lg
+    mb-6 mt-6 md:mt-0
+  "
 >
-  <p className="text-lg font-bold text-yellow-600 dark:text-yellow-400 flex items-center gap-2">
-    <span>
-      Sharpen your mind, beat the clock, and unlock instant rewards with Celo MiniPay.
-    </span>
+  <p className="text-sm sm:text-base font-semibold 
+     text-purple-800 dark:text-yellow-300 leading-relaxed text-center">
+    Sharpen your mind, beat the clock,  
+    and unlock instant rewards with <span className="font-bold">Celo MiniPay</span>.
   </p>
 </motion.div>
+
 
 
         <motion.div

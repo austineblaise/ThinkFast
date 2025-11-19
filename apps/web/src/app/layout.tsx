@@ -4,8 +4,10 @@ import './globals.css';
 
 // import { Navbar } from '@/components/navbar';
 import { WalletProvider } from "@/components/wallet-provider"
-import Navbar from '@/components/navbar';
+
 import BottomTabs from '@/components/BottomTabs';
+import Navbar from '@/components/navbar';
+
 
 const inter = Inter({ subsets: ['latin'] });
 

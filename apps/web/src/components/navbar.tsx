@@ -5,7 +5,9 @@ import { FaSun, FaMoon } from "react-icons/fa";
 import { motion } from "framer-motion";
 // import { ConnectButton } from "@/components/connect-button";
 import { useAccount, useDisconnect } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+// import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton } from "@/components/connect-button"
+import { Button } from "@/components/ui/button"
 
 export default function Navbar() {
   const [theme, setTheme] = useState("light");
@@ -48,7 +50,9 @@ export default function Navbar() {
 
      
 
-  <ConnectButton />
+  <Button asChild className="w-full">
+                     <ConnectButton />
+                  </Button>
 
         {/* Theme Toggle */}
         <button
