@@ -48,31 +48,14 @@ export default function Navbar() {
       {/* RIGHT SECTION */}
       <div className="flex items-center gap-3 md:gap-5">
         {/* Connected Status */}
-        {isConnected && (
-          <motion.div
-            className="flex items-center gap-2 px-3 py-1 rounded-xl bg-blue-100 dark:bg-blue-900/40
-            border border-blue-300 dark:border-blue-700 shadow-sm"
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            {/* Blinking Blue Dot */}
-            <span className="w-3 h-3 rounded-full bg-blue-500 animate-ping"></span>
-            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
-
-            {/* Address */}
-            <span className="font-medium text-blue-800 dark:text-blue-300 text-sm">
-              {shortAddress}
-            </span>
-          </motion.div>
-        )}
+    
 
         {/* Connect Button */}
-        {!isConnected && (
+   
           <Button asChild className="px-4 py-2">
             <ConnectButton />
           </Button>
-        )}
+      
 
         {/* Theme Toggle */}
         <button
@@ -90,7 +73,6 @@ export default function Navbar() {
     </nav>
   );
 }
-
 
 // "use client"
 
