@@ -34,7 +34,8 @@ const connectors = connectorsForWallets(
   ],
   {
     appName: "my-celo-app",
-    projectId: "4a05597a-927d-4939-a04d-038384a0b953", // required for WalletConnect
+    projectId: "2beca34190e412723abcf8aca3b84cdd", // required for WalletConnect
+    
   }
 );
 
