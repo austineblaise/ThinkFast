@@ -9,7 +9,25 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
   injectedWallet,
   walletConnectWallet,
-  metaMaskWallet,        // ⭐ REQUIRED for mobile deeplinking
+  metaMaskWallet,
+  coinbaseWallet,
+  trustWallet,
+  bitgetWallet,
+  rainbowWallet,
+  bifrostWallet,
+  bitskiWallet,
+  bitverseWallet,
+  bloomWallet,
+  braveWallet,
+  bybitWallet,
+  coin98Wallet,
+  coreWallet,
+  dawnWallet,
+  okxWallet,
+  phantomWallet,
+  uniswapWallet
+
+  // 🌈 Rainbow Wallet deep-linking
 } from "@rainbow-me/rainbowkit/wallets";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -18,20 +36,36 @@ import { useEffect, useState } from "react";
 import { WagmiProvider, createConfig, http, useConnect } from "wagmi";
 import { celo, celoAlfajores } from "wagmi/chains";
 
-// Optional UI button
+// Optional UI ConnectButton
 import { ConnectButton } from "./connect-button";
 
 // -------------------------
-// WALLET CONNECTORS
+// WALLET CONNECTORS (FULL)
 // -------------------------
 const connectors = connectorsForWallets(
   [
     {
-      groupName: "Recommended",
+     groupName: 'Recommended',
       wallets: [
-        metaMaskWallet,       // ⭐ FIX: Enables redirect to MetaMask mobile app
-        injectedWallet,       // MiniPay + Browser wallets
-        walletConnectWallet,  // QR Code + other wallets
+        metaMaskWallet, // ⭐ MetaMask mobile=deeplink
+        coinbaseWallet, // ⭐ Coinbase deeplink
+        trustWallet, // ⭐ Trust Wallet deeplink
+        rainbowWallet, // ⭐ Rainbow Wallet deeplink
+        injectedWallet, // MiniPay + browser wallets
+        walletConnectWallet, // WC fallback + QR
+        bitgetWallet,
+        bifrostWallet,
+        bitskiWallet,
+        bitverseWallet,
+        bloomWallet,
+        braveWallet,
+        bybitWallet,
+        coin98Wallet,
+        coreWallet,
+        dawnWallet,
+        okxWallet,
+        phantomWallet,
+        uniswapWallet,
       ],
     },
   ],
@@ -57,7 +91,7 @@ const wagmiConfig: any = createConfig({
 const queryClient = new QueryClient();
 
 // -------------------------
-// AUTO CONNECT MINIPAY
+// AUTO-CONNECT MINIPAY
 // -------------------------
 function WalletProviderInner({ children }: { children: React.ReactNode }) {
   const { connect, connectors } = useConnect();
@@ -66,7 +100,7 @@ function WalletProviderInner({ children }: { children: React.ReactNode }) {
     if (typeof window === "undefined") return;
 
     // Auto-connect MiniPay
-    if (window.ethereum && window.ethereum.isMiniPay) {
+    if (window.ethereum?.isMiniPay) {
       const injectedConnector = connectors.find((c) => c.id === "injected");
 
       if (injectedConnector) {
@@ -84,9 +118,7 @@ function WalletProviderInner({ children }: { children: React.ReactNode }) {
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
   return (
     <WagmiProvider config={wagmiConfig}>
@@ -98,10 +130,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WagmiProvider>
   );
 }
-
-
-
-
 
 // "use client";
 
@@ -140,7 +168,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 //   {
 //     appName: "my-celo-app",
 //     projectId: "2beca34190e412723abcf8aca3b84cdd", // required for WalletConnect
-    
+
 //   }
 // );
 
@@ -201,11 +229,6 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 //     </WagmiProvider>
 //   );
 // }
-
-
-
-
-
 
 // "use client";
 
