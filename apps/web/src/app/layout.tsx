@@ -7,7 +7,7 @@ import { WalletProvider } from "@/components/wallet-provider"
 
 import BottomTabs from '@/components/BottomTabs';
 import Navbar from '@/components/navbar';
-
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,6 +34,13 @@ export default function RootLayout({
 
 
             <BottomTabs />
+
+
+             <Toaster
+          position="bottom-center"
+          richColors
+          duration={2500}
+        />
           </WalletProvider>
         </div>
       </body>
