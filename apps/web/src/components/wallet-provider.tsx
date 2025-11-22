@@ -9,6 +9,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
   injectedWallet,
   walletConnectWallet,
+  metaMaskWallet,        // ⭐ REQUIRED for mobile deeplinking
 } from "@rainbow-me/rainbowkit/wallets";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,7 +18,8 @@ import { useEffect, useState } from "react";
 import { WagmiProvider, createConfig, http, useConnect } from "wagmi";
 import { celo, celoAlfajores } from "wagmi/chains";
 
-import { ConnectButton } from "./connect-button"; // optional use
+// Optional UI button
+import { ConnectButton } from "./connect-button";
 
 // -------------------------
 // WALLET CONNECTORS
@@ -27,15 +29,15 @@ const connectors = connectorsForWallets(
     {
       groupName: "Recommended",
       wallets: [
-        injectedWallet,        // MiniPay, MetaMask, Browser wallets
-        walletConnectWallet,   // QR code + mobile wallets
+        metaMaskWallet,       // ⭐ FIX: Enables redirect to MetaMask mobile app
+        injectedWallet,       // MiniPay + Browser wallets
+        walletConnectWallet,  // QR Code + other wallets
       ],
     },
   ],
   {
     appName: "my-celo-app",
-    projectId: "2beca34190e412723abcf8aca3b84cdd", // required for WalletConnect
-    
+    projectId: "2beca34190e412723abcf8aca3b84cdd", // WalletConnect v2
   }
 );
 
@@ -63,7 +65,7 @@ function WalletProviderInner({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Detect MiniPay
+    // Auto-connect MiniPay
     if (window.ethereum && window.ethereum.isMiniPay) {
       const injectedConnector = connectors.find((c) => c.id === "injected");
 
@@ -96,6 +98,109 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     </WagmiProvider>
   );
 }
+
+
+
+
+
+// "use client";
+
+// import {
+//   RainbowKitProvider,
+//   connectorsForWallets,
+// } from "@rainbow-me/rainbowkit";
+// import "@rainbow-me/rainbowkit/styles.css";
+
+// import {
+//   injectedWallet,
+//   walletConnectWallet,
+// } from "@rainbow-me/rainbowkit/wallets";
+
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import { useEffect, useState } from "react";
+
+// import { WagmiProvider, createConfig, http, useConnect } from "wagmi";
+// import { celo, celoAlfajores } from "wagmi/chains";
+
+// import { ConnectButton } from "./connect-button"; // optional use
+
+// // -------------------------
+// // WALLET CONNECTORS
+// // -------------------------
+// const connectors = connectorsForWallets(
+//   [
+//     {
+//       groupName: "Recommended",
+//       wallets: [
+//         injectedWallet,        // MiniPay, MetaMask, Browser wallets
+//         walletConnectWallet,   // QR code + mobile wallets
+//       ],
+//     },
+//   ],
+//   {
+//     appName: "my-celo-app",
+//     projectId: "2beca34190e412723abcf8aca3b84cdd", // required for WalletConnect
+    
+//   }
+// );
+
+// // -------------------------
+// // WAGMI CONFIG
+// // -------------------------
+// const wagmiConfig: any = createConfig({
+//   chains: [celo, celoAlfajores],
+//   connectors,
+//   transports: {
+//     [celo.id]: http(),
+//     [celoAlfajores.id]: http(),
+//   },
+//   ssr: true,
+// });
+
+// const queryClient = new QueryClient();
+
+// // -------------------------
+// // AUTO CONNECT MINIPAY
+// // -------------------------
+// function WalletProviderInner({ children }: { children: React.ReactNode }) {
+//   const { connect, connectors } = useConnect();
+
+//   useEffect(() => {
+//     if (typeof window === "undefined") return;
+
+//     // Detect MiniPay
+//     if (window.ethereum && window.ethereum.isMiniPay) {
+//       const injectedConnector = connectors.find((c) => c.id === "injected");
+
+//       if (injectedConnector) {
+//         connect({ connector: injectedConnector });
+//       }
+//     }
+//   }, [connect, connectors]);
+
+//   return <>{children}</>;
+// }
+
+// // -------------------------
+// // PROVIDER WRAPPER
+// // -------------------------
+// export function WalletProvider({ children }: { children: React.ReactNode }) {
+//   const [mounted, setMounted] = useState(false);
+
+//   useEffect(() => {
+//     setMounted(true);
+//   }, []);
+
+//   return (
+//     <WagmiProvider config={wagmiConfig}>
+//       <QueryClientProvider client={queryClient}>
+//         <RainbowKitProvider>
+//           <WalletProviderInner>{children}</WalletProviderInner>
+//         </RainbowKitProvider>
+//       </QueryClientProvider>
+//     </WagmiProvider>
+//   );
+// }
 
 
 
