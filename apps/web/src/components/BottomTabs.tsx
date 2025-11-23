@@ -1,7 +1,8 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaHome, FaCrown, FaGift, FaCalendarDay } from "react-icons/fa";
+import { FaHome, FaCrown, FaGift, FaCalendarDay, FaHistory } from "react-icons/fa";
 
 export default function BottomTabs() {
   const path = usePathname();
@@ -10,6 +11,7 @@ export default function BottomTabs() {
     { href: "/", icon: <FaHome />, label: "Home" },
     { href: "/leaderboard", icon: <FaCrown />, label: "Leaderboard" },
     { href: "/claim", icon: <FaGift />, label: "Daily Claim" },
+    { href: "/quiz/history", icon: <FaHistory />, label: "Quiz History" },
   ];
 
   return (

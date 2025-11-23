@@ -59,6 +59,43 @@ export default function QuizGame() {
   const client = publicClient;
   const [loadingQuestions, setLoadingQuestions] = useState(true);
 
+
+
+
+  // ... existing code ...
+
+  useEffect(() => {
+    // 1. Only run this if a score exists (game is finished)
+    if (score === null) return;
+
+    // 2. Create the data object
+    const newResult = {
+      score: score,
+      totalQuestions: questions.length,
+      date: new Date().toLocaleDateString(), // e.g., "11/24/2025"
+      time: new Date().toLocaleTimeString(), // e.g., "10:30:00 AM"
+      timestamp: Date.now(), // Useful for sorting by newest later
+    };
+
+    try {
+      // 3. Get existing history from Local Storage (or empty array if none)
+      const existingHistory = JSON.parse(localStorage.getItem("quizHistory") || "[]");
+
+      // 4. Add the new result to the array
+      const updatedHistory = [...existingHistory, newResult];
+
+      // 5. Save it back to Local Storage
+      localStorage.setItem("quizHistory", JSON.stringify(updatedHistory));
+      
+      console.log("Score saved locally:", newResult);
+    } catch (error) {
+      console.error("Failed to save to local storage:", error);
+    }
+
+  }, [score]); // Dependency: Runs whenever 'score' updates
+
+  // ... rest of your code ...
+
   const fetchQuestions = async (category: string) => {
     const res = await fetch("/api/questions", {
       method: "POST",
@@ -322,14 +359,19 @@ export default function QuizGame() {
     if (!questionFinished) return;
 
     if (step + 1 === questions.length) {
-      const correctCount = answers.filter(
-        (ans, i) => ans === questions[i].answer
-      ).length;
+      const correctCount = answers.filter((ans, i) => {
+        const correctIndex = letterToIndex(questions[i].answer);
+        const correctOption = questions[i].options[correctIndex];
+        return ans === correctOption;
+      }).length;
+
       setScore(correctCount);
     } else {
       setStep((prev) => prev + 1);
     }
-  }, [questionFinished]);
+
+    setQuestionFinished(false);
+  }, [questionFinished, answers, questions]); // <--- Added answers and questions here
 
   useEffect(() => {
     if (!score || !address || claimCooldown > 0) return;
@@ -404,40 +446,6 @@ export default function QuizGame() {
 
     load();
   }, [category]);
-
-  //   useEffect(() => {
-  //   if (!category) return;
-
-  //   async function load() {
-  //     const qs = await fetchQuestions(category);
-  //     setQuestions(qs);
-  //   }
-
-  //   load();
-  // }, [category]);
-
-  // useEffect(() => {
-  //   if (!category) return;
-  //   if (!allQuestions || allQuestions.length === 0) return;
-
-  //   let filtered = allQuestions;
-
-  //   if (category !== "all") {
-  //     filtered = allQuestions.filter((q) => q.category === category);
-  //   }
-
-  //   if (filtered.length === 0) {
-  //     console.warn("No questions found for category:", category);
-  //     setQuestions([]);
-  //     return;
-  //   }
-
-  //   const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-  //   const finalQuestions =
-  //     shuffled.length >= 10 ? shuffled.slice(0, 10) : shuffled;
-
-  //   setQuestions(finalQuestions);
-  // }, [category]);
 
   const restart = () => {
     setQuestions(getRandomQuestions());
@@ -605,13 +613,18 @@ export default function QuizGame() {
                 <span>
                   Question {step + 1} of {questions.length}
                 </span>
-
                 <span className="text-green-700 dark:text-green-400 font-semibold">
                   Score:{" "}
                   {
-                    answers.filter(
-                      (ans, i) => ans && questions[i]?.answer === ans
-                    ).length
+                    answers.filter((ans, i) => {
+                      if (!ans || !questions[i]) return false;
+                      // Convert the letter (e.g., "A") to the index (0)
+                      const correctIndex = letterToIndex(questions[i].answer);
+                      // Get the actual text (e.g., "Paris")
+                      const correctOption = questions[i].options[correctIndex];
+                      // Compare text with text
+                      return ans === correctOption;
+                    }).length
                   }
                 </span>
 
