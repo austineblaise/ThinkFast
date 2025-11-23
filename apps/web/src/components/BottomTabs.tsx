@@ -8,9 +8,8 @@ export default function BottomTabs() {
 
   const tabs = [
     { href: "/", icon: <FaHome />, label: "Home" },
-    { href: "/leaderboard", icon: <FaCrown />, label: "Ranks" },
-    { href: "/daily", icon: <FaCalendarDay />, label: "Daily" },
-    { href: "/claim", icon: <FaGift />, label: "Claim" },
+    { href: "/leaderboard", icon: <FaCrown />, label: "Leaderboard" },
+    { href: "/claim", icon: <FaGift />, label: "Daily Claim" },
   ];
 
   return (
