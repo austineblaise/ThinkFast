@@ -38,7 +38,6 @@ export default function Leaderboard() {
           ...(doc.data() as User),
         }));
 
-        console.log("Fetched leaderboard data:", data);
         setUsers(data);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
@@ -50,162 +49,124 @@ export default function Leaderboard() {
     fetchLeaderboard();
   }, []);
 
-  // Updated medal logic with better styling wrappers
   const medal = (index: number) => {
     if (index === 0)
-      return (
-        <div className="flex justify-center">
-          <FaTrophy className="text-yellow-400 text-xl drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]" />
-        </div>
-      );
+      return <FaTrophy className="text-yellow-500 text-2xl" />;
     if (index === 1)
-      return (
-        <div className="flex justify-center">
-           <FaMedal className="text-gray-300 text-lg" />
-        </div>
-      );
+      return <FaMedal className="text-gray-300 text-xl" />;
     if (index === 2)
-      return (
-        <div className="flex justify-center">
-           <FaMedal className="text-amber-600 text-lg" />
-        </div>
-      );
+      return <FaMedal className="text-amber-600 text-xl" />;
+
     return (
-      <span className="flex items-center justify-center w-6 h-6 mx-auto rounded-full bg-zinc-800 text-xs font-mono text-zinc-400">
+      <span className="flex items-center justify-center w-7 h-7 mx-auto rounded-full bg-gray-200 dark:bg-gray-800 text-xs font-bold text-gray-600 dark:text-gray-400">
         {index + 1}
       </span>
     );
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-purple-500/30">
-      
-      {/* Decorative Background Blob */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-purple-600/10 blur-[100px] rounded-full pointer-events-none" />
+    <div className="min-h-screen bg-gray-100 dark:bg-[#0C0C0F] text-gray-900 dark:text-gray-100 transition-colors">
 
-      <div className="relative max-w-5xl mx-auto px-4 py-8 sm:py-12">
-        
-        {/* Header Section */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+      {/* Container */}
+      <div className="max-w-5xl mx-auto px-4 py-8">
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8 mt-10">
           <button
             onClick={() => router.back()}
-            className="group flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors text-sm font-medium w-fit"
-            aria-label="Go back"
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-green-500 transition"
           >
-            <div className="p-2 rounded-full bg-zinc-800 group-hover:bg-zinc-700 transition-colors">
-               <FaArrowLeft className="text-xs" />
+            <div className="p-2 rounded-full bg-gray-200 dark:bg-gray-800">
+              <FaArrowLeft className="text-sm" />
             </div>
-            <span>Back to Quiz</span>
+            <span className="text-sm font-medium">Back to Quiz</span>
           </button>
 
-          <div className="text-right hidden sm:block">
-            <h1 className="text-2xl font-bold tracking-tight text-white">Global Leaderboard</h1>
-            <p className="text-zinc-500 text-sm">Top performing players this season</p>
+          <div className="text-right">
+            <h1 className="text-3xl font-bold text-green-500">Leaderboard</h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              Top performing players
+            </p>
           </div>
         </div>
 
-        {/* Mobile Title (Visible only on small screens) */}
-        <div className="sm:hidden mb-6">
-           <h1 className="text-2xl font-bold tracking-tight text-white">Global Leaderboard</h1>
-           <p className="text-zinc-500 text-sm">Top performing players this season</p>
-        </div>
-
+        {/* Loading */}
         {loading ? (
           <div className="flex flex-col items-center justify-center h-64 gap-3">
-             <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
-             <p className="text-zinc-500 text-sm animate-pulse">Syncing data...</p>
+            <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
+            <p className="text-gray-500 dark:text-gray-400 text-sm">Loading...</p>
           </div>
         ) : (
-          <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/40 backdrop-blur-md shadow-2xl">
+          <div className="overflow-hidden rounded-xl shadow-xl bg-white dark:bg-[#141418] border border-gray-200 dark:border-gray-800">
+            
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-zinc-800 bg-zinc-900/80">
-                    <th className="py-4 px-4 text-center w-16 text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                      Rank
-                    </th>
-                    <th className="py-4 px-4 text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                      Player
-                    </th>
-                    <th className="py-4 px-4 text-xs font-semibold uppercase tracking-wider text-zinc-500 hidden sm:table-cell">
-                      Wallet
-                    </th>
-                    <th className="py-4 px-4 text-right text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                      Score
-                    </th>
-                    <th className="py-4 px-4 text-right text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                      Reward
-                    </th>
+                  <tr className="bg-gray-50 dark:bg-[#1A1A21] text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wider">
+                    <th className="py-4 px-4 text-center w-16">Rank</th>
+                    <th className="py-4 px-4">Player</th>
+                    <th className="py-4 px-4 hidden sm:table-cell">Wallet</th>
+                    <th className="py-4 px-4 text-right">Score</th>
+                    <th className="py-4 px-4 text-right">Reward</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-800/50">
+
+                <tbody>
                   {users.map((user, index) => (
                     <tr
                       key={user.address + index}
-                      className={`group transition-colors duration-200 hover:bg-zinc-800/40 ${index < 3 ? 'bg-purple-500/[0.02]' : ''}`}
+                      className="border-t border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-[#1D1D25] transition"
                     >
                       {/* Rank */}
-                      <td className="py-4 px-4">
+                      <td className="py-4 px-4 text-center">
                         {medal(index)}
                       </td>
 
-                      {/* User Info */}
+                      {/* Player info */}
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
-                          <div className="relative shrink-0">
-                            {user.profilePic ? (
-                              <img
-                                src={user.profilePic}
-                                alt={user.username}
-                                className="w-10 h-10 rounded-full object-cover ring-2 ring-zinc-800 group-hover:ring-zinc-700"
-                              />
-                            ) : (
-                              <div
-                                className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 ring-2 ring-zinc-800 group-hover:ring-zinc-700"
-                              >
-                                <FaUserCircle className="text-xl" />
-                              </div>
-                            )}
-                            {/* Online/Status Indicator for aesthetics */}
-                            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-zinc-900 rounded-full"></div>
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-sm font-semibold text-zinc-200 group-hover:text-purple-400 transition-colors">
-                               {user.username || "Anonymous"}
-                            </span>
-                            {/* Show address on mobile here instead of separate column */}
-                            <span className="text-[10px] text-zinc-500 font-mono sm:hidden">
+                          {user.profilePic ? (
+                            <img
+                              src={user.profilePic}
+                              alt={user.username}
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                          ) : (
+                            <FaUserCircle className="text-4xl text-gray-400" />
+                          )}
+
+                          <div>
+                            <p className="font-semibold text-sm">
+                              {user.username || "Anonymous"}
+                            </p>
+
+                            <p className="text-xs text-gray-500 dark:text-gray-400 sm:hidden">
                               {truncateAddress(user.address)}
-                            </span>
+                            </p>
                           </div>
                         </div>
                       </td>
 
-                      {/* Address (Desktop) */}
+                      {/* Address desktop only */}
                       <td className="py-4 px-4 hidden sm:table-cell">
-                        <span className="px-2 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-xs font-mono text-zinc-400 group-hover:border-zinc-700 transition-colors">
+                        <span className="px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-xs font-mono text-gray-600 dark:text-gray-400">
                           {truncateAddress(user.address)}
                         </span>
                       </td>
 
                       {/* Score */}
                       <td className="py-4 px-4 text-right">
-                        <span className="font-mono text-sm font-bold text-white">
-                          {user.score}
-                        </span>
-                        <span className="text-xs text-zinc-500 ml-1">pts</span>
+                        <span className="font-semibold">{user.score}</span>
                       </td>
 
                       {/* Reward */}
                       <td className="py-4 px-4 text-right">
-                        <div className="flex flex-col items-end">
-                          <span className="text-sm font-medium text-emerald-400 font-mono">
-                            +{getRewardForScore(user.score)}
-                          </span>
-                          <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-wider">
-                            CELO
-                          </span>
-                        </div>
+                        <span className="font-mono text-green-500 font-medium">
+                          +{getRewardForScore(user.score)}
+                        </span>
+                        <span className="text-[10px] ml-1 text-gray-500 uppercase">
+                          CELO
+                        </span>
                       </td>
                     </tr>
                   ))}
@@ -213,11 +174,12 @@ export default function Leaderboard() {
               </table>
 
               {users.length === 0 && (
-                <div className="py-12 text-center">
-                  <p className="text-zinc-500 text-sm">No records found yet.</p>
+                <div className="py-10 text-center text-gray-500 dark:text-gray-400">
+                  No records found
                 </div>
               )}
             </div>
+
           </div>
         )}
       </div>

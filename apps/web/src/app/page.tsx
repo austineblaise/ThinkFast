@@ -170,7 +170,7 @@ export default function Home() {
           {/* PRIZE POOL */}
           <motion.div
             variants={itemVariants}
-            className="bg-gradient-to-r from-[#2596be]/20 to-yellow-500/20 
+            className="bg-gradient-to-r mt-8 md:mt-0 from-[#2596be]/20 to-yellow-500/20 
             dark:from-[#2596be]/10 dark:to-yellow-400/10 backdrop-blur-xl
             border border-white/30 dark:border-gray-700/40 px-4 py-3 rounded-2xl shadow-lg mb-6"
           >
@@ -211,7 +211,7 @@ export default function Home() {
           <motion.div
             variants={itemVariants}
             className="backdrop-blur-md bg-white/30 dark:bg-white/10
-            border border-white/40 rounded-2xl p-4 sm:p-6 w-full mb-6 shadow-md space-y-4"
+            border border-white/40 rounded-2xl md:p-4 p-3  w-full mb-6 shadow-md space-y-4"
           >
             <h2 className="text-lg sm:text-xl font-bold text-[#2596be]">
               How to Play

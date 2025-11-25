@@ -1,5 +1,3 @@
-// // app/quiz/data/questions.ts
-
 
 
 
