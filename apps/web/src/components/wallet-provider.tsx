@@ -71,10 +71,13 @@ const connectors = connectorsForWallets(
   ],
   {
     appName: "my-celo-app",
-    projectId: "2beca34190e412723abcf8aca3b84cdd", // WalletConnect v2
+    projectId: "aba85f408b481b322b91e2c2e7b341f3",
+    // projectId: "2beca34190e412723abcf8aca3b84cdd", // WalletConnect v2
   }
 );
 
+// aba85f408b481b322b91e2c2e7b341f3
+// aba85f408b481b322b91e2c2e7b341f3
 // -------------------------
 // WAGMI CONFIG
 // -------------------------
