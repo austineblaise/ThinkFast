@@ -244,6 +244,11 @@
 //   );
 // }
 
+
+
+
+
+
 "use client";
 
 import { useEffect, useState, useRef, useMemo } from "react"; // Added useMemo for score calculation
@@ -258,6 +263,7 @@ import {
   FaCheckCircle,
   FaTimesCircle,
 } from "react-icons/fa"; // Added icons
+import LoadingScreen from "@/components/Loading";
 
 // Define the primary accent color
 const ACCENT_COLOR = "#2596be";
@@ -331,73 +337,79 @@ export default function QuizGame() {
   }, [answers, questions]);
 
   // --- Fetch Questions ---
-  const fetchQuestions = async (category: string) => {
-    // Note: Ensure your API route handles this correctly
-    const res = await fetch("/api/questions", {
-      method: "POST",
-      body: JSON.stringify({ category }),
-    });
-    const data = await res.json();
-    return data.questions;
-  };
+ const fetchQuestions = async (category: string) => {
+  const res = await fetch("/api/questions", {
+    method: "POST",
+    body: JSON.stringify({ category }),
+  });
 
-  useEffect(() => {
-    async function load() {
-      setLoadingQuestions(true);
+  if (!res.ok) throw new Error("API error");
 
-      // --- Timeout wrapper (4 seconds) ---
-      const fetchWithTimeout = (ms: number) => {
-        return new Promise(async (resolve, reject) => {
-          const timeout = setTimeout(() => reject(new Error("timeout")), ms);
+  const data = await res.json();
 
-          try {
-            const qs = await fetchQuestions(category);
-            clearTimeout(timeout);
-            resolve(qs);
-          } catch (err) {
-            clearTimeout(timeout);
-            reject(err);
-          }
-        });
-      };
+  if (!data.questions) throw new Error("Invalid API response");
 
-      try {
-        // Try fetching with 4s timeout
-        const qs: any = await fetchWithTimeout(4000);
-        setQuestions(qs);
-      } catch (e) {
-        console.error("API fetch failed or timed out:", e);
+  return data.questions;
+};
 
-        // --- FALLBACK TO LOCAL QUESTIONS ---
-        let fallback: any[] = [];
 
-        if (category === "all") {
-          // give 10 random questions from all categories
-          fallback = [...allQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
-        } else {
-          // filter by category
-          fallback = allQuestions.filter((q) =>
-            q.category.toLowerCase() === category.toLowerCase()
-          );
 
-          // if not enough, still slice max 10
-          fallback = fallback.slice(0, 10);
 
-          // If no local match at all, fallback to full random 10
-          if (fallback.length === 0) {
-            fallback = [...allQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
-          }
-        }
 
-        setQuestions(fallback);
-        toast.error("Network issue — using offline questions");
+
+useEffect(() => {
+  async function load() {
+    setLoadingQuestions(true);
+
+    try {
+      const qs = await fetchQuestions(category);
+
+      // Validate the API data won't break your app
+      const valid = Array.isArray(qs) && qs.length > 0;
+      if (!valid) {
+        throw new Error("Invalid API data");
       }
 
-      setLoadingQuestions(false);
+      setQuestions(qs);
+    } catch (err) {
+      console.error("Failed to load from API:", err);
+
+      // FALLBACK TO LOCAL QUESTIONS
+      let fallback: any[] = [];
+
+      if (category === "all") {
+        fallback = [...allQuestions]
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 10);
+      } else {
+        fallback = allQuestions.filter(
+          (q) => q.category.toLowerCase() === category.toLowerCase()
+        );
+
+        if (fallback.length === 0) {
+          fallback = [...allQuestions]
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 10);
+        } else {
+          fallback = fallback.slice(0, 10);
+        }
+      }
+
+      setQuestions(fallback);
+      toast.error("Couldn't fetch online questions — using offline questions");
     }
 
-    load();
-  }, [category]);
+    setLoadingQuestions(false);
+  }
+
+  load();
+}, [category]);
+
+
+
+
+
+
 
   // --- Game Logic ---
   const currentQuestion = questions[step];
@@ -521,14 +533,8 @@ export default function QuizGame() {
 
   if (loadingQuestions) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-        <motion.p
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-          className="text-xl text-[#2596be]"
-        >
-          Loading Quiz...
-        </motion.p>
+      <div>
+         <LoadingScreen  />
       </div>
     );
   }

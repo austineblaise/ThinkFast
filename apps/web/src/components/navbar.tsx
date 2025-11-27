@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaSun, FaMoon } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { useAccount } from "wagmi";
+import { FaSun, FaMoon, FaBolt } from "react-icons/fa";
 import { ConnectButton } from "@/components/connect-button";
 import { Button } from "@/components/ui/button";
+import { useAccount } from "wagmi";
 
 export default function Navbar() {
   const [theme, setTheme] = useState("light");
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
@@ -26,11 +25,6 @@ export default function Navbar() {
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
 
-  // Shorten address
-  const shortAddress = address
-    ? `${address.slice(0, 5)}...${address.slice(-3)}`
-    : "";
-
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg
@@ -38,30 +32,60 @@ export default function Navbar() {
       dark:border-gray-700 flex items-center justify-between
       px-4 md:px-6 py-3"
     >
-      {/* Logo */}
-      <div className="flex items-center gap-2">
-        <h1 className="font-bold text-sm md:text-xl text-black dark:text-white">
-          Think Fast
-        </h1>
+      {/* LEFT – Brand */}
+      <div className="flex items-center gap-3">
+        {!isConnected ? (
+          // Text Version (when not connected)
+          <h1
+            className="font-extrabold text-lg md:text-2xl tracking-wide 
+            bg-gradient-to-r from-[#2596be] to-yellow-500 bg-clip-text text-transparent
+            drop-shadow-sm"
+          >
+            Think Fast
+          </h1>
+        ) : (
+          // Logo Version (when connected)
+          <div
+            className="flex items-center gap-3
+  bg-gradient-to-br from-[#2596be]/20 to-yellow-500/20
+  border border-white/30 dark:border-gray-700/40 shadow-xl
+  backdrop-blur-md"
+          >
+            {/* TF LOGO */}
+            <div
+              className="w-12 flex items-center justify-center
+    bg-gradient-to-br from-[#2596be] to-yellow-500
+    shadow-lg relative overflow-hidden"
+            >
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-white/20 blur-xl"></div>
+
+              <span
+                className="relative z-10 font-extrabold text-xl text-white tracking-wide 
+      drop-shadow-[0_3px_3px_rgba(0,0,0,0.25)]"
+              >
+                TF
+              </span>
+            </div>
+
+            {/* TITLE (optional — you can remove this if you want only logo) */}
+          </div>
+        )}
       </div>
 
       {/* RIGHT SECTION */}
       <div className="flex items-center gap-3 md:gap-5">
-        {/* Connected Status */}
-    
-
         {/* Connect Button */}
-   
-          <Button asChild className="px-4 py-2">
-            <ConnectButton />
-          </Button>
-      
+        <Button asChild className="px-4 py-2 rounded-xl">
+          <ConnectButton />
+        </Button>
 
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
           className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 
-          transition-all duration-300 shadow flex items-center justify-center"
+          transition-all duration-300 shadow flex items-center justify-center
+          hover:scale-105 hover:rotate-6"
         >
           {theme === "light" ? (
             <FaMoon className="text-black text-lg md:text-xl" />
