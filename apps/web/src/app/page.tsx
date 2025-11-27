@@ -57,7 +57,8 @@ const itemVariants = {
 
 // ALL CATEGORIES (EXPANDED)
 
-export const categoriesList = [
+
+ const categoriesList = [
   // ===== NATURAL SCIENCES =====
   {
     label: "Physics",
