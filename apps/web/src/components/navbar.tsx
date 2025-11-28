@@ -77,7 +77,8 @@ export default function Navbar() {
       <div className="flex items-center gap-3 md:gap-5">
         {/* Connect Button */}
         <Button asChild className="px-4 py-2 rounded-xl">
-          <ConnectButton />
+         <ConnectButton iconOnly />
+
         </Button>
 
         {/* Theme Toggle */}

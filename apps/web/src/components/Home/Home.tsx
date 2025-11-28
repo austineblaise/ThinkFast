@@ -35,11 +35,13 @@ import {
   FaListOl,
   FaForward,
   FaPlay,
+  FaWallet,
 } from "react-icons/fa";
 
 import { UserBalance } from "@/components/user-balance";
 import { WalletIcon, X } from "lucide-react";
-import AILoading from "@/components/Loading";
+import { ConnectButton } from "../connect-button";
+import LoadingScreen from "../Loading";
 
 // Animations
 const containerVariants = {
@@ -57,8 +59,7 @@ const itemVariants = {
 
 // ALL CATEGORIES (EXPANDED)
 
-
- const categoriesList = [
+const categoriesList = [
   // ===== NATURAL SCIENCES =====
   {
     label: "Physics",
@@ -438,23 +439,26 @@ export default function Home() {
       >
         {/* CENTER */}
         <motion.div
-          className="flex flex-col items-center justify-center text-center w-full max-w-md mt-12 sm:mt-20"
+          className="flex flex-col items-center justify-center text-center w-full max-w-md mt-12 sm:mt-20 mb-10"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           {/* PRIZE POOL */}
-      <motion.div
-  variants={itemVariants}
-  className="bg-gradient-to-r mt-8 md:mt-0 from-[#2596be]/20 to-yellow-500/20 
+          <motion.div
+            variants={itemVariants}
+            className="bg-gradient-to-r mt-8 md:mt-0 from-[#2596be]/20 to-yellow-500/20 
   dark:from-[#2596be]/10 dark:to-yellow-400/10 backdrop-blur-xl
   border border-white/30 dark:border-gray-700/40 px-4 py-3 rounded-2xl shadow-lg mb-6"
->
-  <p className="text-sm sm:text-base font-semibold text-[#2596be] dark:text-yellow-300">
-    Test your wits on any topic, course, or subject of your choice and <b>win exciting rewards</b> instantly with <b>Celo MiniPay</b>! Challenge yourself and prove how smart you really are.
-  </p>
-</motion.div>
+          >
+            <p className="text-sm sm:text-base font-semibold text-[#2596be] dark:text-yellow-300">
+              Test your wits on any topic, course, or subject of your choice and{" "}
+              <b>win exciting rewards</b> instantly with <b>Celo MiniPay</b>!
+              Challenge yourself and prove how smart you really are.
+            </p>
+          </motion.div>
 
+          {/* <LoadingScreen/> */}
 
           {/* PRIZE CARD */}
           <motion.div
@@ -517,21 +521,14 @@ export default function Home() {
           </motion.div>
 
           {/* START BUTTON */}
-          <motion.button
-            variants={itemVariants}
-            onClick={() => {
-              if (!isConnected) {
-                const btn = document.querySelector(
-                  "button[data-testid='rk-connect-button']"
-                ) as HTMLButtonElement | null;
-                btn?.click();
-              } else {
-                setOpenModal(true);
-              }
-            }}
-            whileHover={{ scale: 1.07 }}
-            whileTap={{ scale: 0.95 }}
-            className="
+          {/* IF CONNECTED → SHOW PLAY BUTTON */}
+          {isConnected ? (
+            <motion.button
+              variants={itemVariants}
+              onClick={() => setOpenModal(true)}
+              whileHover={{ scale: 1.07 }}
+              whileTap={{ scale: 0.95 }}
+              className="
       relative overflow-hidden group
       bg-gradient-to-r from-[#2596be] to-[#1f82a7]
       dark:from-[#1f82a7] dark:to-[#2596be]
@@ -540,29 +537,34 @@ export default function Home() {
       shadow-[0_8px_25px_rgba(37,150,190,0.35)]
       mb-10
     "
-          >
-            {/* Glow */}
-            <span
-              className="absolute inset-0 bg-white/20 dark:bg-white/10 
+            >
+              {/* Glow */}
+              <span
+                className="absolute inset-0 bg-white/20 dark:bg-white/10 
       opacity-0 group-hover:opacity-100 transition duration-300"
-            ></span>
-
-            {/* Shine effect */}
-            <span
-              className="absolute -left-16 top-0 w-12 h-full bg-white/30 
+              />
+              {/* Shine */}
+              <span
+                className="absolute -left-16 top-0 w-12 h-full bg-white/30 
       rotate-12 group-hover:translate-x-[400%] transition-transform duration-700"
-            ></span>
-
-            {/* Icon */}
-            {isConnected ? (
+              />
+              {/* Icon */}
               <FaPlay className="text-white group-hover:rotate-12 transition-all duration-300" />
-            ) : (
-              <WalletIcon className="text-white group-hover:rotate-12 transition-all duration-300" />
-            )}
-
-            {/* Text */}
-            {isConnected ? "Play" : "Connect Wallet to Play"}
-          </motion.button>
+              {/* Text */}
+              Play
+            </motion.button>
+          ) : (
+            /* IF NOT CONNECTED → SHOW CONNECT BUTTON */
+            <ConnectButton
+              label="Connect Wallet to Play"
+              icon={
+                <WalletIcon
+                  size={22}
+                  className="text-white group-hover:rotate-12 transition-all duration-300"
+                />
+              }
+            />
+          )}
         </motion.div>
 
         {/* MODAL */}
@@ -685,3 +687,26 @@ export default function Home() {
     </>
   );
 }
+
+{
+  /* <ConnectButton label="Connect Wallet to Play" /> */
+}
+{
+  /* <ConnectButton 
+  label="Start Game"
+  icon={<FaWallet size={22} color="yellow" />}
+/> */
+}
+
+{
+  /* <ConnectButton iconOnly /> */
+}
+
+{
+  /* <ConnectButton icon={null} /> */
+}
+
+// <ConnectButton
+//   iconOnly
+//   icon={<FaWallet size={24} color="#fff" />}
+// />
