@@ -86,7 +86,7 @@ export default function QuizHistory() {
             <div className="flex flex-col items-center justify-center py-12 text-gray-400 dark:text-gray-500">
               <FaHistory className="text-5xl opacity-20 mb-3" />
               <p className="text-base font-medium">No history yet.</p>
-              <Link href="/quiz">
+              <Link href="/">
                 <button className="mt-3 text-green-600 hover:underline text-sm">
                   Start a Quiz
                 </button>
