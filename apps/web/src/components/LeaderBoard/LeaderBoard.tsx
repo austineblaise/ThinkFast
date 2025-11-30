@@ -165,8 +165,6 @@ const CATEGORIES = [
   "Public Administration",
 ];
 
-// --- New Component: Searchable Category Select ---
-
 interface SearchableCategorySelectProps {
   categories: string[];
   selectedCategory: string;
@@ -215,73 +213,180 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
   };
 
   return (
-    <div ref={dropdownRef} className="relative w-full md:w-64 z-10">
-      {/* Current Selection / Dropdown Button */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between items-center w-full px-4 py-2 text-sm font-semibold text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-xl shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-700/70 transition-colors"
-      >
-        <span>Category: **{selectedCategory}**</span>
-        <FaChevronDown
-          className={`ml-2 h-4 w-4 transition-transform ${
-            isOpen ? "rotate-180" : "rotate-0"
-          }`}
+    <div className="w-full max-w-4xl mx-auto p-4">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+        <div className="flex items-center gap-4">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg shadow-orange-500/20">
+            <FaTrophy className="text-white text-3xl" />
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-extrabold text-zinc-800 dark:text-white tracking-tight">
+              Wall of Fame
+            </h2>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Celebrating brilliance, accuracy, and speed
+            </p>
+          </div>
+        </div>
+
+        <SearchableCategorySelect
+          categories={CATEGORIES}
+          selectedCategory={selectedCategory}
+          onSelect={setSelectedCategory}
         />
-      </button>
+      </div>
 
-      {/* Dropdown Panel */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.15 }}
-            className="absolute right-0 mt-2 w-full max-h-80 overflow-hidden rounded-xl shadow-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 ring-1 ring-black ring-opacity-5 focus:outline-none"
-          >
-            <div className="p-3 border-b dark:border-zinc-800">
-              {/* Search Input */}
-              <div className="relative">
-                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-zinc-400" />
-                <input
-                  type="text"
-                  placeholder="Search categories..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 rounded-lg focus:ring-[#2596be] focus:border-[#2596be] outline-none"
-                  autoFocus
-                />
+      {/* Leaderboard Card */}
+      <div className="bg-white/90 dark:bg-zinc-900/80 backdrop-blur-xl border border-zinc-200/60 dark:border-zinc-700/40 rounded-3xl shadow-2xl overflow-hidden">
+        {/* Sticky Header */}
+        <div className="grid grid-cols-12 gap-4 px-6 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100/60 dark:bg-zinc-900/70 text-[11px] font-bold text-zinc-500 uppercase tracking-wide sticky top-0 z-10">
+          <div className="col-span-2 md:col-span-1 text-center">Rank</div>
+          <div className="col-span-6 md:col-span-5">Player</div>
+          <div className="col-span-4 md:col-span-2 text-right">Score</div>
+          <div className="hidden md:block md:col-span-2 text-right">Time</div>
+          <div className="hidden md:block md:col-span-2 text-right">
+            Category
+          </div>
+        </div>
+
+        {/* Scrollable Rows */}
+        <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
+          {loading ? (
+            [...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="grid grid-cols-12 gap-4 px-6 py-4 border-b dark:border-zinc-800/50 animate-pulse"
+              >
+                <div className="col-span-2 md:col-span-1 mx-auto bg-zinc-300/60 dark:bg-zinc-800 h-5 w-8 rounded"></div>
+                <div className="col-span-6 md:col-span-5 bg-zinc-300/60 dark:bg-zinc-800 h-5 rounded w-28"></div>
+                <div className="col-span-4 md:col-span-2 ml-auto bg-zinc-300/60 dark:bg-zinc-800 h-5 rounded w-12"></div>
               </div>
+            ))
+          ) : entries.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-24 text-zinc-500">
+              <FaUserAstronaut className="text-5xl mb-4 opacity-50" />
+              <p>No scores yet for this category.</p>
             </div>
+          ) : (
+            <AnimatePresence>
+              {entries.map((entry, index) => {
+                const rank = index + 1;
 
-            {/* Category List */}
-            <div className="overflow-y-auto max-h-60 custom-scrollbar">
-              {filteredCategories.length > 0 ? (
-                filteredCategories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => handleSelect(cat)}
-                    className={`block w-full text-left px-4 py-2 text-sm transition-colors duration-150
+                // --- Polished Top 3 Styling ---
+                const topStyles = [
+                  {
+                    icon: <FaMedal className="text-2xl text-yellow-500" />,
+                    bg: "from-yellow-500/15",
+                    border: "border-yellow-400/60",
+                  },
+                  {
+                    icon: <FaMedal className="text-2xl text-zinc-400" />,
+                    bg: "from-zinc-400/15",
+                    border: "border-zinc-400/50",
+                  },
+                  {
+                    icon: <FaMedal className="text-2xl text-orange-500" />,
+                    bg: "from-orange-500/15",
+                    border: "border-orange-500/60",
+                  },
+                ];
+
+                const special = topStyles[rank - 1];
+
+                return (
+                  <motion.div
+                    key={entry.id}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.04 }}
+                    className={`grid grid-cols-12 gap-4 px-6 py-5 items-center border-b dark:border-zinc-800/40 
+                    ${
+                      special
+                        ? `bg-gradient-to-r ${special.bg} border-l-4 ${special.border}`
+                        : `hover:bg-zinc-100/40 dark:hover:bg-zinc-800/40 transition`
+                    }
+                  `}
+                  >
+                    {/* Rank */}
+                    <div className="col-span-2 md:col-span-1 flex justify-center">
+                      {special ? (
+                        special.icon
+                      ) : (
+                        <span className="font-bold text-zinc-400">#{rank}</span>
+                      )}
+                    </div>
+
+                    {/* Player */}
+                    <div className="col-span-6 md:col-span-5 flex items-center gap-3">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-sm shadow-md
                       ${
-                        selectedCategory === cat
-                          ? "bg-[#2596be] text-white font-bold"
-                          : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                        rank === 1
+                          ? "bg-yellow-500"
+                          : rank === 2
+                          ? "bg-zinc-400"
+                          : rank === 3
+                          ? "bg-orange-500"
+                          : "bg-[#2596be]"
                       }
                     `}
-                  >
-                    {cat}
-                  </button>
-                ))
-              ) : (
-                <div className="px-4 py-4 text-sm text-zinc-500 dark:text-zinc-400 text-center">
-                  No categories found.
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                      >
+                        <FaUserAstronaut size={14} />
+                      </div>
+
+                      <div className="flex flex-col">
+                        <span className="text-sm md:text-base font-semibold text-zinc-800 dark:text-white tracking-tight">
+                          {entry.walletAddress.slice(0, 6)}...
+                          {entry.walletAddress.slice(-4)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Score */}
+                    <div className="col-span-4 md:col-span-2 text-right">
+                      <span className="text-xl font-extrabold text-[#2596be]">
+                        {entry.score}
+                      </span>
+                      <span className="text-[11px] text-zinc-400">
+                        {" "}
+                        / {entry.totalQuestions}
+                      </span>
+
+                      <div className="w-full bg-zinc-200 dark:bg-zinc-800 h-1.5 rounded-full mt-1">
+                        <div
+                          className="bg-[#2596be] h-1.5 rounded-full"
+                          style={{
+                            width: `${
+                              (entry.score / entry.totalQuestions) * 100
+                            }%`,
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    {/* Time */}
+                    <div className="hidden md:flex md:col-span-2 justify-end text-sm text-zinc-500 dark:text-zinc-400 gap-2">
+                      <FaClock className="text-xs opacity-60" />
+                      {Math.floor(entry.timeTakenMs / 1000 / 60)}m{" "}
+                      {Math.floor(entry.timeTakenMs / 1000) % 60}s
+                    </div>
+
+                    {/* Category */}
+                    <div className="hidden md:block md:col-span-2 text-right">
+                      <span className="px-2 py-1 rounded-lg bg-zinc-200/60 dark:bg-zinc-800 text-xs font-semibold text-zinc-600 dark:text-zinc-400 border border-zinc-300/50 dark:border-zinc-700/60">
+                        {entry.category || "General"}
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
@@ -306,27 +411,19 @@ export default function Leaderboard() {
     return `${m}m ${s}s`;
   };
 
-  // --- Fetch Data ---
   useEffect(() => {
     setLoading(true);
 
-    // Build Query
     const constraints: QueryConstraint[] = [];
 
-    // Filter by Category if not "All"
     if (selectedCategory !== "All") {
       constraints.push(where("category", "==", selectedCategory));
     }
 
-    // Order by Score (Desc), then Time (Asc) for tie-breaker
-    // NOTE: You may need to create a Composite Index in Firebase Console for this to work!
     constraints.push(orderBy("score", "desc"));
     constraints.push(orderBy("timeTakenMs", "asc"));
     constraints.push(limit(50));
-
     const q = query(leaderboardCollection, ...constraints);
-
-    // Real-time listener
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
@@ -365,7 +462,6 @@ export default function Leaderboard() {
           </div>
         </div>
 
-        {/* Category Filter - REPLACED WITH SEARCHABLE SELECT */}
         <SearchableCategorySelect
           categories={CATEGORIES}
           selectedCategory={selectedCategory}
@@ -373,9 +469,7 @@ export default function Leaderboard() {
         />
       </div>
 
-      {/* Leaderboard List */}
       <div className="bg-white/80 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/50 dark:border-white/5 rounded-3xl shadow-xl overflow-hidden">
-        {/* Table Header */}
         <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-xs font-bold text-zinc-400 uppercase tracking-wider">
           <div className="col-span-2 md:col-span-1 text-center">Rank</div>
           <div className="col-span-6 md:col-span-5">Player</div>
@@ -500,13 +594,11 @@ export default function Leaderboard() {
                       </div>
                     </div>
 
-                    {/* Time (Desktop) */}
                     <div className="hidden md:flex md:col-span-2 justify-end items-center gap-2 text-zinc-500 dark:text-zinc-400 text-sm font-medium">
                       <FaClock className="text-xs opacity-50" />
                       {formatTime(entry.timeTakenMs)}
                     </div>
 
-                    {/* Category (Desktop) */}
                     <div className="hidden md:block md:col-span-2 text-right">
                       <span className="px-2 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-xs font-semibold text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">
                         {entry.category || "General"}
