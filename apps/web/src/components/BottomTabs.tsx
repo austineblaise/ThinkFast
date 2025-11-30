@@ -16,7 +16,7 @@ export default function BottomTabs() {
     { href: "/", icon: FaHome, label: "Home" },
     { href: "/leaderboard", icon: FaCrown, label: "Leaderboard" },
     // { href: "/claim", icon: FaGift, label: "Daily Claim" },
-    { href: "/quiz/history", icon: FaHistory, label: "History" },
+    { href: "/quiz/history", icon: FaHistory, label: "My history" },
   ];
 
   return (

@@ -18,7 +18,6 @@ import {
   FaClock,
   FaSearch,
   FaChevronDown,
-  FaCrown,
 } from "react-icons/fa";
 
 // --- Types ---
@@ -32,143 +31,68 @@ interface LeaderboardEntry {
   createdAt: any;
 }
 
-// Keeping CATEGORIES list intact as per request
+// Keeping CATEGORIES as is for brevity, assuming it's correctly imported/defined.
 const CATEGORIES = [
-  // NATURAL SCIENCES
+  // ... (Your CATEGORIES array goes here)
   "All",
   "Physics",
-
   "Chemistry",
-
   "Biology",
-
   "Mathematics",
-
   "Statistics",
-
   "Geology",
-
   "Environmental Science",
-
   "Microbiology",
-
   "Biochemistry",
-
   "Marine Biology",
-
-  // ENGINEERING
-
   "Mechanical Engineering",
-
   "Electrical Engineering",
-
   "Civil Engineering",
-
   "Chemical Engineering",
-
   "Computer Engineering",
-
   "Software Engineering",
-
   "Petroleum Engineering",
-
   "Aerospace Engineering",
-
   "Mechatronics Engineering",
-
-  // TECHNOLOGY & COMPUTING
-
   "Computer Science",
-
   "Information Technology",
-
   "Cybersecurity",
-
   "Artificial Intelligence",
-
   "Data Science",
-
-  // MEDICINE & HEALTH
-
   "Medicine",
-
   "Nursing",
-
   "Pharmacy",
-
   "Physiology",
-
   "Medical Laboratory Science",
-
   "Public Health",
-
   "Dentistry",
-
   "Veterinary Medicine",
-
-  // BUSINESS & MANAGEMENT
-
   "Economics",
-
   "Business Administration",
-
   "Accounting",
-
   "Finance",
-
   "Marketing",
-
   "Entrepreneurship",
-
   "Human Resource Management",
-
-  // SOCIAL SCIENCES
-
   "Political Science",
-
   "International Relations",
-
   "Sociology",
-
   "Psychology",
-
   "Mass Communication",
-
   "Criminology",
-
-  // ARTS & HUMANITIES
-
   "English & Literary Studies",
-
   "History",
-
   "Philosophy",
-
   "Fine Arts",
-
   "Linguistics",
-
   "Theatre Arts",
-
-  // AGRICULTURE
-
   "Agricultural Science",
-
   "Food Science",
-
   "Forestry",
-
   "Fisheries",
-
-  // LAW & ADMINISTRATION
-
   "Law",
-
   "Public Administration",
 ];
-
-
-// --- SearchableCategorySelect Component (Enhanced Design) ---
 
 interface SearchableCategorySelectProps {
   categories: string[];
@@ -185,7 +109,7 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Filter categories based on search term (Logic remains)
+  // Filter categories based on search term
   const filteredCategories = useMemo(() => {
     if (!searchTerm) return categories;
 
@@ -195,7 +119,7 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
     );
   }, [categories, searchTerm]);
 
-  // Handle outside click to close dropdown (Logic remains)
+  // Handle outside click to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -203,7 +127,7 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
-        setSearchTerm("");
+        setSearchTerm(""); // Optionally clear search on close
       }
     };
 
@@ -218,35 +142,38 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
   };
 
   return (
-    <div ref={dropdownRef} className="relative w-full md:w-64 z-20">
-      {/* Current Selection / Dropdown Button - Neumorphism/Shadow Button */}
+    <div ref={dropdownRef} className="relative w-full md:w-64 z-10">
+      {/* Current Selection / Dropdown Button - ELEGANCE IMPROVEMENT */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between items-center w-full px-5 py-2.5 text-base font-medium text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-full shadow-lg dark:shadow-zinc-900/50 hover:bg-zinc-50 dark:hover:bg-zinc-700/70 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#2596be]"
+        className="flex justify-between items-center w-full px-4 py-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100 bg-white dark:bg-zinc-800 border-2 border-[#2596be] dark:border-[#2596be]/70 rounded-full shadow-lg hover:shadow-[#2596be]/30 dark:hover:shadow-[#2596be]/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#2596be]"
       >
-        <span className="truncate">
-          Category: **{selectedCategory}**
+        <span>
+          <span className="font-normal text-zinc-500 dark:text-zinc-400 mr-1">
+            Category:
+          </span>
+          **{selectedCategory}**
         </span>
         <FaChevronDown
-          className={`ml-2 h-4 w-4 transition-transform ${
+          className={`ml-2 h-4 w-4 transition-transform text-[#2596be] ${
             isOpen ? "rotate-180" : "rotate-0"
           }`}
         />
       </button>
 
-      {/* Dropdown Panel - Elevated, rounded, and clean */}
+      {/* Dropdown Panel - ELEGANCE IMPROVEMENT */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 mt-3 w-full max-h-80 overflow-hidden rounded-xl shadow-2xl bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 ring-1 ring-black ring-opacity-10 focus:outline-none"
+            className="absolute right-0 mt-2 w-full max-h-80 overflow-hidden rounded-xl shadow-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 ring-1 ring-black ring-opacity-5 focus:outline-none transform origin-top-right"
           >
-            <div className="p-3 border-b dark:border-zinc-700/50">
-              {/* Search Input - Tighter integration */}
+            <div className="p-3 border-b dark:border-zinc-800">
+              {/* Search Input */}
               <div className="relative">
                 <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-zinc-400" />
                 <input
@@ -254,24 +181,24 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
                   placeholder="Search categories..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-zinc-50 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-600 rounded-lg focus:ring-[#2596be] focus:border-[#2596be] outline-none transition"
+                  className="w-full pl-10 pr-4 py-2 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-transparent rounded-full focus:ring-2 focus:ring-[#2596be] focus:border-[#2596be] outline-none transition-shadow"
                   autoFocus
                 />
               </div>
             </div>
 
-            {/* Category List - Better hover effect */}
+            {/* Category List */}
             <div className="overflow-y-auto max-h-60 custom-scrollbar">
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => handleSelect(cat)}
-                    className={`block w-full text-left px-4 py-2 text-sm transition-colors duration-150
+                    className={`block w-full text-left px-4 py-3 text-sm transition-colors duration-150 ease-in-out
                       ${
                         selectedCategory === cat
-                          ? "bg-[#2596be] text-white font-bold"
-                          : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                          ? "bg-[#2596be] text-white font-semibold"
+                          : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                       }
                     `}
                   >
@@ -291,15 +218,20 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
   );
 };
 
+// --- Leaderboard Component ---
 
-// --- Leaderboard Component (Enhanced Design) ---
+// ... (imports and types remain the same)
+
+// ... (SearchableCategorySelect component remains the same)
+
+// --- Leaderboard Component ---
 
 export default function Leaderboard() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // --- Helpers (Logic remains) ---
+  // --- Helpers ---
   const formatAddress = (addr: string) => {
     if (!addr) return "Anonymous";
     return `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`;
@@ -312,7 +244,6 @@ export default function Leaderboard() {
     return `${m}m ${s}s`;
   };
 
-  // --- useEffect (Logic remains) ---
   useEffect(() => {
     setLoading(true);
 
@@ -347,21 +278,19 @@ export default function Leaderboard() {
   }, [selectedCategory]);
 
   return (
-    // Increased max-width for more spacious layout
-    <div className="w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 overflow-hidden">
-      {/* Header Section - More distinct and elegant */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+    <div className="max-w-7xl mx-auto p-4" style={{ overflow: "hidden" }}>
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-gradient-to-r from-[#2596be] to-blue-500 p-6 rounded-3xl shadow-2xl shadow-blue-500/30">
         <div className="flex items-center gap-4">
-          {/* Trophy Icon with a richer gradient and shadow */}
-          <div className="p-4 bg-gradient-to-br from-[#2596be] to-blue-500 rounded-2xl shadow-xl shadow-blue-500/30">
-            <FaTrophy className="text-white text-3xl" />
+          <div className="p-3 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+            <FaTrophy className="text-white text-3xl drop-shadow-md" />
           </div>
           <div>
-            <h2 className="text-3xl font-extrabold text-zinc-800 dark:text-white">
-              🚀 Wall of Fame
+            <h2 className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">
+              The Global Leaderboard
             </h2>
-            <p className="text-md text-zinc-500 dark:text-zinc-400 mt-1">
-              Top 50 global performers ranked by **Score** and **Speed**
+            <p className="text-sm text-blue-100 font-medium">
+              See the top competitors by score and lightning-fast speed.
             </p>
           </div>
         </div>
@@ -373,152 +302,150 @@ export default function Leaderboard() {
         />
       </div>
 
-      {/* Main Leaderboard Container - Glassmorphism/Blurred effect */}
-      <div className="bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-white/80 dark:border-zinc-800/50 rounded-3xl shadow-2xl dark:shadow-zinc-950/50 overflow-hidden">
-        
-        {/* Table Header - Sticky, distinct background */}
-        <div className="grid grid-cols-12 gap-4 p-4 sticky top-0 z-10 bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-b border-zinc-200 dark:border-zinc-700 text-xs font-extrabold text-zinc-500 uppercase tracking-widest shadow-inner">
-          <div className="col-span-1 text-center">RANK</div>
-          <div className="col-span-5">PLAYER</div>
-          <div className="col-span-2 text-right">SCORE</div>
-          <div className="hidden lg:block lg:col-span-2 text-right">TIME</div>
-          <div className="hidden lg:block lg:col-span-2 text-right">CATEGORY</div>
-        </div>
-
-        {/* Content Area - Scrollable with custom scrollbar styling */}
-        <div className="max-h-[70vh] overflow-y-auto custom-scrollbar">
-          {loading ? (
-            // Skeleton Loader - Cleaner style
-            [...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="grid grid-cols-12 gap-4 p-4 items-center border-b border-zinc-100 dark:border-zinc-800/50 animate-pulse transition-colors"
-              >
-                <div className="col-span-1 bg-zinc-200 dark:bg-zinc-800 h-6 rounded-full w-8 mx-auto"></div>
-                <div className="col-span-5 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
-                  <div className="bg-zinc-200 dark:bg-zinc-800 h-4 rounded w-2/3"></div>
-                </div>
-                <div className="col-span-2 bg-zinc-200 dark:bg-zinc-800 h-6 rounded w-1/2 ml-auto"></div>
-                <div className="hidden lg:block lg:col-span-2 bg-zinc-200 dark:bg-zinc-800 h-6 rounded w-1/3 ml-auto"></div>
-                <div className="hidden lg:block lg:col-span-2 bg-zinc-200 dark:bg-zinc-800 h-6 rounded w-1/3 ml-auto"></div>
-              </div>
-            ))
-          ) : entries.length === 0 ? (
-            // Empty State
-            <div className="flex flex-col items-center justify-center py-24 text-zinc-400">
-              <FaUserAstronaut className="text-6xl mb-4 opacity-50" />
-              <p className="text-lg">No scores posted yet for **{selectedCategory}**.</p>
-              <p className="text-sm mt-1">Be the first to climb the ranks!</p>
+      <div className="bg-white/80 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/50 dark:border-white/5 rounded-3xl shadow-xl overflow-hidden">
+        {/* Horizontal Scroll Wrapper for Mobile (TABLE RESPONSIVENESS) */}
+        <div className="overflow-x-auto">
+          <div className="min-w-[600px] md:min-w-full">
+            {/* Table Header Row */}
+            <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-xs font-bold text-zinc-400 uppercase tracking-wider sticky top-0 z-5">
+              <div className="col-span-1 text-center">Rank</div>
+              <div className="col-span-4">Player</div>
+              <div className="col-span-2 text-right">Score</div>
+              <div className="col-span-2 text-right">Time</div>
+              <div className="col-span-3 text-right">Category</div>
             </div>
-          ) : (
-            <AnimatePresence>
-              {entries.map((entry, index) => {
-                const rank = index + 1;
 
-                // Styling for Top 3 (Modified for richer look)
-                let rankStyle = "text-zinc-500 font-extrabold text-lg";
-                let rankIcon = <span className="text-sm font-mono">#{rank}</span>;
-                let rowBg = "hover:bg-zinc-100 dark:hover:bg-zinc-800/70";
-                let nameStyle = "text-zinc-800 dark:text-zinc-200";
-                let avatarColor = "bg-[#2596be]";
-
-                if (rank === 1) {
-                  rankStyle = "text-yellow-500 text-2xl drop-shadow-md";
-                  rankIcon = <FaCrown className="drop-shadow-lg" />;
-                  rowBg = "bg-yellow-500/10 dark:bg-yellow-900/30 border-l-4 border-yellow-500 hover:bg-yellow-500/20 dark:hover:bg-yellow-900/50";
-                  nameStyle = "text-yellow-600 dark:text-yellow-400 font-extrabold";
-                  avatarColor = "bg-yellow-500";
-                } else if (rank === 2) {
-                  rankStyle = "text-zinc-400 text-xl drop-shadow-md";
-                  rankIcon = <FaMedal />;
-                  rowBg = "bg-zinc-400/10 dark:bg-zinc-600/20 border-l-4 border-zinc-400 hover:bg-zinc-400/20 dark:hover:bg-zinc-600/40";
-                  nameStyle = "text-zinc-600 dark:text-zinc-300 font-bold";
-                  avatarColor = "bg-zinc-400";
-                } else if (rank === 3) {
-                  rankStyle = "text-amber-600 text-xl drop-shadow-md";
-                  rankIcon = <FaMedal />;
-                  rowBg = "bg-amber-600/10 dark:bg-amber-800/20 border-l-4 border-amber-600 hover:bg-amber-600/20 dark:hover:bg-amber-800/40";
-                  nameStyle = "text-amber-700 dark:text-amber-400 font-bold";
-                  avatarColor = "bg-amber-600";
-                }
-
-                return (
-                  <motion.div
-                    key={entry.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.03, duration: 0.3 }}
-                    className={`grid grid-cols-12 gap-4 p-4 items-center border-b border-zinc-100 dark:border-zinc-800/50 transition-all duration-200 ${rowBg}`}
+            {/* Content Container */}
+            <div className="max-h-[600px] overflow-y-auto custom-scrollbar">
+              {loading ? (
+                // Skeleton Loader
+                [...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800/50 animate-pulse"
                   >
-                    {/* Rank */}
-                    <div
-                      className={`col-span-1 flex justify-center ${rankStyle}`}
-                    >
-                      {rankIcon}
-                    </div>
+                    <div className="col-span-1 bg-zinc-200 dark:bg-zinc-800 h-6 rounded w-8 mx-auto"></div>
+                    <div className="col-span-4 bg-zinc-200 dark:bg-zinc-800 h-6 rounded w-32"></div>
+                    <div className="col-span-2 bg-zinc-200 dark:bg-zinc-800 h-6 rounded w-12 ml-auto"></div>
+                  </div>
+                ))
+              ) : entries.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+                  <FaUserAstronaut className="text-4xl mb-4 opacity-50" />
+                  <p>No scores yet for this category.</p>
+                </div>
+              ) : (
+                <AnimatePresence>
+                  {entries.map((entry, index) => {
+                    const rank = index + 1;
 
-                    {/* Player */}
-                    <div className="col-span-5 flex items-center gap-3">
-                      <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center text-sm text-white shadow-lg ${avatarColor}`}
+                    // Styling for Top 3
+                    let rankStyle = "text-zinc-500 font-bold";
+                    let rankIcon = <span className="text-sm">#{rank}</span>;
+                    let rowBg = "hover:bg-zinc-50 dark:hover:bg-zinc-800/50";
+
+                    if (rank === 1) {
+                      rankStyle = "text-yellow-500";
+                      rankIcon = (
+                        <FaMedal className="text-xl drop-shadow-sm" />
+                      );
+                      rowBg =
+                        "bg-gradient-to-r from-yellow-500/10 to-transparent border-l-4 border-yellow-400/80";
+                    } else if (rank === 2) {
+                      rankStyle = "text-zinc-400";
+                      rankIcon = (
+                        <FaMedal className="text-xl drop-shadow-sm" />
+                      );
+                      rowBg =
+                        "bg-gradient-to-r from-zinc-400/10 to-transparent border-l-4 border-zinc-400/80";
+                    } else if (rank === 3) {
+                      rankStyle = "text-orange-500";
+                      rankIcon = (
+                        <FaMedal className="text-xl drop-shadow-sm" />
+                      );
+                      rowBg =
+                        "bg-gradient-to-r from-orange-500/10 to-transparent border-l-4 border-orange-500/80";
+                    }
+
+                    return (
+                      <motion.div
+                        key={entry.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className={`grid grid-cols-12 gap-4 p-4 items-center border-b border-zinc-100 dark:border-zinc-800/50 transition-colors ${rowBg}`}
                       >
-                        {/* Use first letter of address for avatar if no name available (e.g., A or B) */}
-                        <span className="font-bold">{entry.walletAddress.charAt(2)}</span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className={`text-sm md:text-base font-mono truncate ${nameStyle}`}>
-                          {formatAddress(entry.walletAddress)}
-                        </span>
-                        {/* Optional rank title display on smaller screens, removed on large as rank is visible */}
-                        {rank <= 3 && (
-                          <span className="text-[10px] uppercase font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 lg:hidden">
-                            {rank === 1
-                              ? "CHAMPION"
-                              : rank === 2
-                              ? "RUNNER UP"
-                              : "BRONZE"}
+                        {/* Rank */}
+                        <div
+                          className={`col-span-1 flex justify-center ${rankStyle}`}
+                        >
+                          {rankIcon}
+                        </div>
+
+                        {/* Player */}
+                        <div className="col-span-4 flex items-center gap-3">
+                          <div
+                            className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm text-white shadow-md flex-shrink-0 
+                            ${
+                              rank === 1
+                                ? "bg-yellow-500"
+                                : rank === 2
+                                ? "bg-zinc-400"
+                                : rank === 3
+                                ? "bg-orange-500"
+                                : "bg-[#2596be]"
+                            }
+                          `}
+                          >
+                            <FaUserAstronaut />
+                          </div>
+                          <div className="flex flex-col min-w-0">
+                            <span className="font-bold text-zinc-800 dark:text-zinc-200 text-xs md:text-sm font-mono truncate">
+                              {formatAddress(entry.walletAddress)}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Score */}
+                        <div className="col-span-2 text-right">
+                          <div className="font-black text-[#2596be] text-base md:text-lg">
+                            {entry.score}
+                            <span className="text-xs text-zinc-400 font-normal ml-0.5">
+                              /{entry.totalQuestions}
+                            </span>
+                          </div>
+                          <div className="w-full bg-zinc-200 rounded-full h-1 mt-0.5 dark:bg-zinc-800">
+                            <div
+                              className="bg-[#2596be] h-1 rounded-full"
+                              style={{
+                                // FIX: Corrected the template literal for width calculation
+                                width: `${(entry.score / entry.totalQuestions) * 100}%`,
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+
+                        {/* Time */}
+                        <div className="col-span-2 flex justify-end items-center gap-1 text-zinc-500 dark:text-zinc-400 text-xs font-medium">
+                          <FaClock className="text-[10px] opacity-60 flex-shrink-0" />
+                          <span className="truncate">
+                            {formatTime(entry.timeTakenMs)}
                           </span>
-                        )}
-                      </div>
-                    </div>
+                        </div>
 
-                    {/* Score */}
-                    <div className="col-span-2 text-right">
-                      <div className="font-black text-[#2596be] dark:text-blue-400 text-xl">
-                        {entry.score}
-                        <span className="text-sm text-zinc-500 dark:text-zinc-400 font-medium ml-1">
-                          / {entry.totalQuestions}
-                        </span>
-                      </div>
-                      {/* Score Progress Bar - Enhanced visibility */}
-                      <div className="w-full bg-zinc-200 rounded-full h-1.5 mt-1 dark:bg-zinc-700">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${(entry.score / entry.totalQuestions) * 100}%` }}
-                          transition={{ duration: 0.5, ease: "easeOut" }}
-                          className="bg-[#2596be] h-1.5 rounded-full shadow-md shadow-[#2596be]/50"
-                        ></motion.div>
-                      </div>
-                    </div>
-
-                    {/* Time (Visible on large screens) */}
-                    <div className="hidden lg:flex lg:col-span-2 justify-end items-center gap-2 text-zinc-600 dark:text-zinc-300 text-sm font-semibold">
-                      <FaClock className="text-base text-zinc-400 dark:text-zinc-500" />
-                      {formatTime(entry.timeTakenMs)}
-                    </div>
-
-                    {/* Category (Visible on large screens) */}
-                    <div className="hidden lg:block lg:col-span-2 text-right">
-                      <span className="px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-xs font-semibold text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 shadow-inner">
-                        {entry.category || "General"}
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          )}
+                        {/* Category */}
+                        <div className="col-span-3 text-right">
+                          <span className="px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 whitespace-nowrap">
+                            {entry.category || "General"}
+                          </span>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
