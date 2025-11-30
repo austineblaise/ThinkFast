@@ -32,7 +32,6 @@ export default function Navbar() {
       dark:border-gray-700 flex items-center justify-between
       px-4 md:px-6 py-3"
     >
-      {/* LEFT – Brand */}
       <div className="flex items-center gap-3">
         {!isConnected ? (
           <h1
@@ -43,20 +42,17 @@ export default function Navbar() {
             Think Fast
           </h1>
         ) : (
-          // Logo Version (when connected)
           <div
             className="flex items-center gap-3
   bg-gradient-to-br from-[#2596be]/20 to-yellow-500/20
   border border-white/30 dark:border-gray-700/40 shadow-xl
   backdrop-blur-md"
           >
-            {/* TF LOGO */}
             <div
               className="w-12 flex items-center justify-center
     bg-gradient-to-br from-[#2596be] to-yellow-500
     shadow-lg relative overflow-hidden"
             >
-              {/* Glow effect */}
               <div className="absolute inset-0 bg-white/20 blur-xl"></div>
 
               <span
@@ -66,20 +62,15 @@ export default function Navbar() {
                 TF
               </span>
             </div>
-
-            {/* TITLE (optional — you can remove this if you want only logo) */}
           </div>
         )}
       </div>
 
-      {/* RIGHT SECTION */}
       <div className="flex items-center gap-3 md:gap-5">
-        {/* Connect Button */}
         <Button asChild className="px-4 py-2 rounded-xl">
           <ConnectButton iconOnly />
         </Button>
 
-        {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
           className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 

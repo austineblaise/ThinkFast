@@ -10,7 +10,6 @@
   },
   "include": [
     "./scripts",
-    "./test",
     "./hardhat.config.ts",
   ]
 }

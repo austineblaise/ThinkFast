@@ -65,7 +65,7 @@ export default function QuizHistory() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-xl bg-white dark:bg-[#1F1629] rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden"
       >
-        {/* Header */}
+     
         <div className="px-4 py-4 bg-[#2596be] text-white relative">
           <h1 className="text-2xl font-bold flex items-center gap-2">
             <FaHistory className="opacity-80" /> Match History
@@ -80,7 +80,7 @@ export default function QuizHistory() {
           </div>
         </div>
 
-        {/* History List */}
+    
         <div className="p-4 max-h-[55vh] overflow-y-auto custom-scrollbar">
           {history.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-gray-400 dark:text-gray-500">
@@ -119,7 +119,7 @@ export default function QuizHistory() {
                       </span>
                     </div>
 
-                    {/* Details */}
+                
                     <div>
                       <div className="flex items-center gap-1 text-gray-800 dark:text-gray-200 font-semibold text-base">
                         <span>Quiz Result</span>
@@ -139,7 +139,7 @@ export default function QuizHistory() {
                     </div>
                   </div>
 
-                  {/* Total Qs */}
+                 
                   <div className="text-right hidden sm:block">
                     <span className="text-[10px] text-gray-400 uppercase">
                       Total Qs
@@ -154,7 +154,7 @@ export default function QuizHistory() {
           )}
         </div>
 
-        {/* Footer */}
+
         <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#17111F]/50 flex justify-between items-center">
           <Link
             href="/quiz"

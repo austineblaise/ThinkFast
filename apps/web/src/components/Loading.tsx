@@ -55,28 +55,20 @@ const LoadingScreen = () => {
         `}</style>
 
         <div className="relative z-10 text-center justify-center flex flex-col items-center">
-          {/* Brain Icon */}
-  
-
           <div
             className="mb-4 px-4 py-1.5 rounded-full bg-[#2596be]/10 border border-[#2596be]/30 
        text-[#2596be] dark:text-[#5ab0d1] text-sm font-semibold 
        shadow-sm backdrop-blur-md flex items-center gap-2 animate-pulse"
           >
-           
             {category ?? "Unknown"}
           </div>
-
-          {/* Title */}
           <h1 className="text-2xl font-bold tracking-tight mb-6 text-[#2596be] dark:text-[#5ab0d1]">
             Preparing Your Questions...
           </h1>
 
-          {/* Subtle Info Box */}
           <div className="p-5 mb-8 rounded-2xl bg-[#2596be]/5 dark:bg-[#2596be]/10 border border-[#2596be]/20">
             <p className="flex items-center justify-center text-sm text-gray-700 dark:text-gray-300 mb-1">
               <FaInfoCircle className="mr-2 text-[#2596be]" />
-              {/* <span className="font-semibold">Smart Fact</span> */}
             </p>
 
             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -89,21 +81,18 @@ const LoadingScreen = () => {
             </p>
           </div>
 
-          {/* Current Step */}
           <div className="mt-8">
             <p className="text-base font-medium text-gray-800 dark:text-gray-200 flex items-center justify-center gap-2">
               <FaSpinner className="animate-spin text-[#2596be]" />
               {loadingSteps[currentStepIndex]}
             </p>
 
-            {/* Dots */}
             <div className="flex justify-center items-center mt-4">
               <AnimatedDot />
               <AnimatedDot />
               <AnimatedDot />
             </div>
 
-            {/* Footer text */}
             <p className="mt-6 text-xs italic text-gray-500 dark:text-gray-400">
               Optimizing your gameplay experience...
             </p>

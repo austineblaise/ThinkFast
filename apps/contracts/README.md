@@ -1,6 +1,6 @@
-# my-celo-app - Smart Contracts
+# Think-Fast-Smart Contracts
 
-This directory contains the smart contracts for my-celo-app, built with Hardhat and optimized for the Celo blockchain.
+This directory contains the smart contracts for Think Fast, built with Hardhat and optimized for the Celo blockchain.
 
 ## 🚀 Quick Start
 
@@ -71,14 +71,9 @@ pnpm deploy:celo
 
 ```
 contracts/          # Smart contract source files
-├── Lock.sol        # Sample timelock contract
+├── QuizReward.sol        # Sample timelock contract
 
-test/              # Contract tests
-├── Lock.ts        # Tests for Lock contract
 
-ignition/          # Deployment scripts
-└── modules/
-    └── Lock.ts    # Lock contract deployment
 
 hardhat.config.ts  # Hardhat configuration
 tsconfig.json      # TypeScript configuration

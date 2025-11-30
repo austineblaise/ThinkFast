@@ -1,8 +1,11 @@
-# my-celo-app
+# Think Fast
 
-A new Celo blockchain project
 
-A modern Celo blockchain application built with Next.js, TypeScript, and Turborepo.
+Think Fast is an engaging and rewarding Decentralized Application (dApp) built on the Celo blockchain.
+The core of the app is a fun and stimulating quiz platform where users can:
+Test their knowledge on any topic, course, or subject of their choice.
+Challenge themselves to prove their intelligence and compete.
+Win exciting rewards instantly upon successful completion of quizzes.
 
 ## Getting Started
 

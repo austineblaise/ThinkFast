@@ -20,7 +20,6 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 
-// --- Types ---
 interface LeaderboardEntry {
   id: string;
   walletAddress: string;
@@ -31,9 +30,7 @@ interface LeaderboardEntry {
   createdAt: any;
 }
 
-// Keeping CATEGORIES as is for brevity, assuming it's correctly imported/defined.
 const CATEGORIES = [
-  // ... (Your CATEGORIES array goes here)
   "All",
   "Physics",
   "Chemistry",
@@ -109,7 +106,6 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Filter categories based on search term
   const filteredCategories = useMemo(() => {
     if (!searchTerm) return categories;
 
@@ -119,7 +115,6 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
     );
   }, [categories, searchTerm]);
 
-  // Handle outside click to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -127,7 +122,7 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
-        setSearchTerm(""); // Optionally clear search on close
+        setSearchTerm("");
       }
     };
 
@@ -143,7 +138,6 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
 
   return (
     <div ref={dropdownRef} className="relative w-full md:w-64 z-10">
-      {/* Current Selection / Dropdown Button - ELEGANCE IMPROVEMENT */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -161,8 +155,6 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
           }`}
         />
       </button>
-
-      {/* Dropdown Panel - ELEGANCE IMPROVEMENT */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -187,7 +179,6 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
               </div>
             </div>
 
-            {/* Category List */}
             <div className="overflow-y-auto max-h-60 custom-scrollbar">
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((cat) => (
@@ -217,14 +208,6 @@ const SearchableCategorySelect: React.FC<SearchableCategorySelectProps> = ({
     </div>
   );
 };
-
-// --- Leaderboard Component ---
-
-// ... (imports and types remain the same)
-
-// ... (SearchableCategorySelect component remains the same)
-
-// --- Leaderboard Component ---
 
 export default function Leaderboard() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
@@ -346,23 +329,17 @@ export default function Leaderboard() {
 
                     if (rank === 1) {
                       rankStyle = "text-yellow-500";
-                      rankIcon = (
-                        <FaMedal className="text-xl drop-shadow-sm" />
-                      );
+                      rankIcon = <FaMedal className="text-xl drop-shadow-sm" />;
                       rowBg =
                         "bg-gradient-to-r from-yellow-500/10 to-transparent border-l-4 border-yellow-400/80";
                     } else if (rank === 2) {
                       rankStyle = "text-zinc-400";
-                      rankIcon = (
-                        <FaMedal className="text-xl drop-shadow-sm" />
-                      );
+                      rankIcon = <FaMedal className="text-xl drop-shadow-sm" />;
                       rowBg =
                         "bg-gradient-to-r from-zinc-400/10 to-transparent border-l-4 border-zinc-400/80";
                     } else if (rank === 3) {
                       rankStyle = "text-orange-500";
-                      rankIcon = (
-                        <FaMedal className="text-xl drop-shadow-sm" />
-                      );
+                      rankIcon = <FaMedal className="text-xl drop-shadow-sm" />;
                       rowBg =
                         "bg-gradient-to-r from-orange-500/10 to-transparent border-l-4 border-orange-500/80";
                     }
@@ -419,13 +396,14 @@ export default function Leaderboard() {
                               className="bg-[#2596be] h-1 rounded-full"
                               style={{
                                 // FIX: Corrected the template literal for width calculation
-                                width: `${(entry.score / entry.totalQuestions) * 100}%`,
+                                width: `${
+                                  (entry.score / entry.totalQuestions) * 100
+                                }%`,
                               }}
                             ></div>
                           </div>
                         </div>
 
-                        {/* Time */}
                         <div className="col-span-2 flex justify-end items-center gap-1 text-zinc-500 dark:text-zinc-400 text-xs font-medium">
                           <FaClock className="text-[10px] opacity-60 flex-shrink-0" />
                           <span className="truncate">
@@ -433,7 +411,6 @@ export default function Leaderboard() {
                           </span>
                         </div>
 
-                        {/* Category */}
                         <div className="col-span-3 text-right">
                           <span className="px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 whitespace-nowrap">
                             {entry.category || "General"}

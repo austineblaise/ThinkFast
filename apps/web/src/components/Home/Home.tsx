@@ -28,22 +28,18 @@ import {
   FaUserGraduate,
   FaLandmark,
   FaHistory,
-  FaMapMarkedAlt,
   FaBolt,
   FaTrophy,
   FaStopwatch,
   FaListOl,
   FaForward,
   FaPlay,
-  FaWallet,
 } from "react-icons/fa";
 
 import { UserBalance } from "@/components/user-balance";
 import { WalletIcon, X } from "lucide-react";
 import { ConnectButton } from "../connect-button";
-import LoadingScreen from "../Loading";
 
-// Animations
 const containerVariants = {
   hidden: { opacity: 0, y: 25 },
   visible: {
@@ -57,10 +53,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-// ALL CATEGORIES (EXPANDED)
-
 const categoriesList = [
-  // ===== NATURAL SCIENCES =====
   {
     label: "Physics",
     category: "Physics",
@@ -178,7 +171,6 @@ const categoriesList = [
     desc: "Robotics, sensors & automation",
   },
 
-  // ===== TECHNOLOGY & COMPUTING =====
   {
     label: "Computer Science",
     category: "Computer Science",
@@ -210,7 +202,6 @@ const categoriesList = [
     desc: "Big data & insights",
   },
 
-  // ===== MEDICINE & HEALTH =====
   {
     label: "Medicine",
     category: "Medicine",
@@ -260,7 +251,6 @@ const categoriesList = [
     desc: "Animal health & care",
   },
 
-  // ===== BUSINESS & MANAGEMENT =====
   {
     label: "Economics",
     category: "Economics",
@@ -304,7 +294,6 @@ const categoriesList = [
     desc: "People, culture & work",
   },
 
-  // ===== SOCIAL SCIENCES =====
   {
     label: "Political Science",
     category: "Political Science",
@@ -342,7 +331,6 @@ const categoriesList = [
     desc: "Crime & justice",
   },
 
-  // ===== ARTS & HUMANITIES =====
   {
     label: "English & Literary Studies",
     category: "English & Literary Studies",
@@ -380,7 +368,6 @@ const categoriesList = [
     desc: "Drama, film & performance",
   },
 
-  // ===== AGRICULTURE =====
   {
     label: "Agricultural Science",
     category: "Agricultural Science",
@@ -406,7 +393,6 @@ const categoriesList = [
     desc: "Fish farming & management",
   },
 
-  // ===== LAW & ADMINISTRATION =====
   {
     label: "Law",
     category: "Law",
@@ -426,7 +412,7 @@ export default function Home() {
   const [openModal, setOpenModal] = useState(false);
   const [search, setSearch] = useState("");
   const { isConnected } = useAccount();
-  // FILTERED LIST FOR SEARCH
+
   const filteredCategories = categoriesList.filter((c) =>
     c.label.toLowerCase().includes(search.toLowerCase())
   );
@@ -437,30 +423,25 @@ export default function Home() {
         className="min-h-screen bg-[#F7F7F7] dark:bg-[#17111F] 
       flex flex-col justify-start items-center text-black dark:text-white px-4 pb-10 relative"
       >
-        {/* CENTER */}
         <motion.div
           className="flex flex-col items-center justify-center text-center w-full max-w-md mt-12 sm:mt-20 mb-10"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* PRIZE POOL */}
           <motion.div
             variants={itemVariants}
             className="bg-gradient-to-r mt-10 md:mt-0 from-[#2596be]/20 to-yellow-500/20 
   dark:from-[#2596be]/10 dark:to-yellow-400/10 backdrop-blur-xl
   border border-white/30 dark:border-gray-700/40 px-4 py-3 rounded-2xl shadow-lg mb-6"
           >
-            <p className="text-sm sm:text-base font-semibold text-[#2596be] dark:text-yellow-300">
-              Test your wits on any topic, course, or subject of your choice and{" "}
-              <b>win exciting rewards</b> instantly with <b>Celo MiniPay</b>!
-              Challenge yourself and prove how smart you really are.
+            <p className="text-sm sm:text-base font-bold text-[#2596be] dark:text-yellow-300">
+              Test your wits on any topic, course, or subject of your choice and
+              win exciting rewards. Challenge yourself and prove how smart you
+              really are.
             </p>
           </motion.div>
 
-          {/* <LoadingScreen/> */}
-
-          {/* PRIZE CARD */}
           <motion.div
             variants={itemVariants}
             className="backdrop-blur-md bg-gradient-to-br from-yellow-400/20 to-[#2596be]/20
@@ -487,7 +468,6 @@ export default function Home() {
 
           <UserBalance />
 
-          {/* HOW TO PLAY */}
           <motion.div
             variants={itemVariants}
             className="backdrop-blur-md bg-white/30 dark:bg-white/10
@@ -520,8 +500,6 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* START BUTTON */}
-          {/* IF CONNECTED → SHOW PLAY BUTTON */}
           {isConnected ? (
             <motion.button
               variants={itemVariants}
@@ -538,23 +516,18 @@ export default function Home() {
       mb-10
     "
             >
-              {/* Glow */}
               <span
                 className="absolute inset-0 bg-white/20 dark:bg-white/10 
       opacity-0 group-hover:opacity-100 transition duration-300"
               />
-              {/* Shine */}
               <span
                 className="absolute -left-16 top-0 w-12 h-full bg-white/30 
       rotate-12 group-hover:translate-x-[400%] transition-transform duration-700"
               />
-              {/* Icon */}
               <FaPlay className="text-white group-hover:rotate-12 transition-all duration-300" />
-              {/* Text */}
               Play
             </motion.button>
           ) : (
-            /* IF NOT CONNECTED → SHOW CONNECT BUTTON */
             <ConnectButton
               label="Connect Wallet to Play"
               icon={
@@ -567,12 +540,9 @@ export default function Home() {
           )}
         </motion.div>
 
-        {/* MODAL */}
-        {/* MODAL */}
         <AnimatePresence>
           {openModal && (
             <>
-              {/* Overlay */}
               <motion.div
                 className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
                 initial={{ opacity: 0 }}
@@ -581,7 +551,6 @@ export default function Home() {
                 onClick={() => setOpenModal(false)}
               />
 
-              {/* Bottom Modal */}
               <motion.div
                 className="fixed bottom-0 left-0 right-0 mx-auto
         bg-white/40 dark:bg-black/40 backdrop-blur-2xl 
@@ -594,13 +563,11 @@ export default function Home() {
                 exit={{ y: "100%" }}
                 transition={{ type: "spring", stiffness: 140 }}
               >
-                {/* FIXED HEADER */}
                 <div
                   className="sticky top-0 z-50 bg-white/60 dark:bg-black/60 
         backdrop-blur-xl border-b border-white/40 dark:border-gray-700
         px-6 pt-6 pb-4"
                 >
-                  {/* Close Button */}
                   <button
                     onClick={() => setOpenModal(false)}
                     className="absolute top-4 right-4 p-2 rounded-full 
@@ -614,7 +581,6 @@ export default function Home() {
                     Choose your Quest
                   </h2>
 
-                  {/* Search */}
                   <input
                     type="text"
                     placeholder="Search category..."
@@ -625,12 +591,10 @@ export default function Home() {
             focus:ring-[#2596be] mb-3"
                   />
 
-                  {/* CUSTOM CATEGORY (AI powered) */}
-
                   <div>
                     <input
                       type="text"
-                      placeholder="Ask AI to create questions about anything..."
+                      placeholder="or pick/type your prefered Quest"
                       onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                         if (e.key === "Enter") {
                           const value = e.currentTarget.value.trim();
@@ -645,7 +609,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* CATEGORY LIST (scrolls) */}
                 <div className="px-6 pt-4 pb-20 overflow-y-auto max-h-[calc(85vh-170px)]">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {filteredCategories.map((cat) => {
@@ -687,26 +650,3 @@ export default function Home() {
     </>
   );
 }
-
-{
-  /* <ConnectButton label="Connect Wallet to Play" /> */
-}
-{
-  /* <ConnectButton 
-  label="Start Game"
-  icon={<FaWallet size={22} color="yellow" />}
-/> */
-}
-
-{
-  /* <ConnectButton iconOnly /> */
-}
-
-{
-  /* <ConnectButton icon={null} /> */
-}
-
-// <ConnectButton
-//   iconOnly
-//   icon={<FaWallet size={24} color="#fff" />}
-// />

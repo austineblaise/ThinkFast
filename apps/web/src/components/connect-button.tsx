@@ -42,13 +42,11 @@ export function ConnectButton({
                 flex items-center ${iconOnly ? "justify-center" : "gap-2"}
               `}
             >
-              {/* Glow overlay */}
               <span
                 className="absolute inset-0 bg-white/20 opacity-0 
                 group-hover:opacity-100 transition duration-300 rounded-inherit"
               ></span>
 
-              {/* Shine animation */}
               <span
                 className="
                   absolute -left-16 top-0 h-full w-12
@@ -59,15 +57,9 @@ export function ConnectButton({
                 "
               ></span>
 
-              {/* Icon */}
-              <span className="relative z-10 flex items-center">
-                {icon}
-              </span>
+              <span className="relative z-10 flex items-center">{icon}</span>
 
-              {/* Label */}
-              {!iconOnly && (
-                <span className="relative z-10">{label}</span>
-              )}
+              {!iconOnly && <span className="relative z-10">{label}</span>}
             </button>
           );
         }
@@ -77,75 +69,3 @@ export function ConnectButton({
     </RainbowKitConnectButton.Custom>
   );
 }
-
-
-
-
-// "use client";
-
-// import { ConnectButton as RainbowKitConnectButton } from "@rainbow-me/rainbowkit";
-// import { useEffect, useState } from "react";
-// import { FaWallet } from "react-icons/fa";
-
-// export function ConnectButton() {
-//   const [isMinipay, setIsMinipay] = useState(false);
-
-//   useEffect(() => {
-//     // @ts-ignore
-//     if (window.ethereum?.isMiniPay) {
-//       setIsMinipay(true);
-//     }
-//   }, []);
-
-//   if (isMinipay) return null;
-
-//   return (
-//     <RainbowKitConnectButton.Custom>
-//       {({ account, chain, openConnectModal }) => {
-//         // Not Connected → Show wallet icon only
-//         if (!account || !chain) {
-//           return (
-//             <button
-//               onClick={openConnectModal}
-//               className="
-//                 p-3 rounded-xl  text-white 
-//                 shadow-lg hover:bg-[#1f82a7] transition 
-//                 flex items-center justify-center
-//               "
-//             >
-//               <FaWallet size={20} color="#2596be" />
-//             </button>
-//           );
-//         }
-
-//         // Connected → Use RainbowKit’s default UI
-//         return <RainbowKitConnectButton />;
-//       }}
-//     </RainbowKitConnectButton.Custom>
-//   );
-// }
-
-
-
-
-// "use client";
-
-// import { ConnectButton as RainbowKitConnectButton } from "@rainbow-me/rainbowkit";
-// import { useEffect, useState } from "react";
-
-// export function ConnectButton() {
-//   const [isMinipay, setIsMinipay] = useState(false);
-
-//   useEffect(() => {
-//     // @ts-ignore
-//     if (window.ethereum?.isMiniPay) {
-//       setIsMinipay(true);
-//     }
-//   }, []);
-
-//   if (isMinipay) {
-//     return null;
-//   }
-
-//   return <RainbowKitConnectButton />;
-// }
