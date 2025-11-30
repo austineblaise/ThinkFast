@@ -278,15 +278,15 @@ export default function Leaderboard() {
   }, [selectedCategory]);
 
   return (
-    <div className="max-w-7xl mx-auto p-4" style={{ overflow: "hidden" }}>
+    <div className="max-w-7xl mx-auto pt-6" style={{ overflow: "hidden" }}>
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-gradient-to-r from-[#2596be] to-blue-500 p-6 rounded-3xl shadow-2xl shadow-blue-500/30">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-gradient-to-r from-[#2596be] to-blue-500 p-3 rounded-lg shadow-2xl shadow-blue-500/30">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
             <FaTrophy className="text-white text-3xl drop-shadow-md" />
           </div>
           <div>
-            <h2 className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">
+            <h2 className="md:text-3xl text-xl font-extrabold text-white tracking-tight drop-shadow-lg">
               The Global Leaderboard
             </h2>
             <p className="text-sm text-blue-100 font-medium">
@@ -302,7 +302,7 @@ export default function Leaderboard() {
         />
       </div>
 
-      <div className="bg-white/80 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/50 dark:border-white/5 rounded-3xl shadow-xl overflow-hidden">
+      <div className="bg-white/80 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/50 dark:border-white/5 rounded-lg shadow-xl overflow-hidden">
         {/* Horizontal Scroll Wrapper for Mobile (TABLE RESPONSIVENESS) */}
         <div className="overflow-x-auto">
           <div className="min-w-[600px] md:min-w-full">
