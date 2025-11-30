@@ -28,7 +28,7 @@ importers:
         specifier: ^2.0.0
         version: 2.1.0(@nomicfoundation/hardhat-ethers@3.1.2)(chai@4.5.0)(ethers@6.15.0)(hardhat@2.27.0)
       '@nomicfoundation/hardhat-ethers':
-        specifier: ^3.0.0
+        specifier: ^3.1.2
         version: 3.1.2(ethers@6.15.0)(hardhat@2.27.0)
       '@nomicfoundation/hardhat-ignition':
         specifier: ^0.15.0
@@ -64,7 +64,7 @@ importers:
         specifier: ^4.2.0
         version: 4.5.0
       ethers:
-        specifier: ^6.4.0
+        specifier: ^6.15.0
         version: 6.15.0
       hardhat:
         specifier: ^2.19.0
@@ -93,6 +93,9 @@ importers:
       '@divvi/referral-sdk':
         specifier: ^2.3.0
         version: 2.3.0
+      '@google/generative-ai':
+        specifier: ^0.24.1
+        version: 0.24.1
       '@radix-ui/react-dialog':
         specifier: ^1.0.5
         version: 1.1.15(@types/react-dom@18.3.7)(@types/react@18.3.26)(react-dom@18.3.1)(react@18.3.1)
@@ -1250,6 +1253,11 @@ packages:
       - supports-color
     dev: false
 
+  /@google/generative-ai@0.24.1:
+    resolution: {integrity: sha512-MqO+MLfM6kjxcKoy0p1wRzG3b4ZZXtPI+z2IE26UogS2Cm/XHO+7gGRBh6gcJsOiIVoH93UwKvW4HdgiOZCy9Q==}
+    engines: {node: '>=18.0.0'}
+    dev: false
+
   /@grpc/grpc-js@1.9.15:
     resolution: {integrity: sha512-nqE7Hc0AzI+euzUwDAy0aY5hCp10r734gMGRdU+qOPX0XSceI2ULrcXB5U2xSc5VkWwalCj4M7GzCAygZl2KoQ==}
     engines: {node: ^8.13.0 || >=10.10.0}
@@ -1751,7 +1759,6 @@ packages:
     engines: {node: ^14.21.3 || >=16}
     dependencies:
       '@noble/hashes': 1.8.0
-    dev: false
 
   /@noble/hashes@1.2.0:
     resolution: {integrity: sha512-FZfhjEDbT5GRswV3C6uvLPHMiVD6lQBmpoX5+eSiPaMTXte/IKqI5dykDxzZB/WBeK/CDuQRBWarPdi3FNY2zQ==}
@@ -2886,7 +2893,7 @@ packages:
   /@scure/bip32@1.7.0:
     resolution: {integrity: sha512-E4FFX/N3f4B80AKWp5dP6ow+flD1LQZo/w8UnLGYZO674jS6YnYeepycOOksv+vLPSpgN35wgKgy+ybfTb2SMw==}
     dependencies:
-      '@noble/curves': 1.9.1
+      '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
 

@@ -15,7 +15,7 @@ export default function BottomTabs() {
   const tabs = [
     { href: "/", icon: FaHome, label: "Home" },
     { href: "/leaderboard", icon: FaCrown, label: "Leaderboard" },
-    { href: "/claim", icon: FaGift, label: "Daily Claim" },
+    // { href: "/claim", icon: FaGift, label: "Daily Claim" },
     { href: "/quiz/history", icon: FaHistory, label: "History" },
   ];
 
